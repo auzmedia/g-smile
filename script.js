@@ -154,7 +154,7 @@ const serviceKeys = [
     { key: 'extraction', icon: 'fa-solid fa-tooth' },
     { key: 'caries', icon: 'fa-solid fa-gem' },
     { key: 'pulpitis', icon: 'fa-solid fa-microscope' },
-    { key: 'cleaning', icon: 'fa-solid fa-sparkles' }, // Yoki fa-solid fa-broom
+    { key: 'cleaning', icon: 'fa-solid fa-broom' }, // Yoki fa-solid fa-broom
     { key: 'whitening', icon: 'fa-solid fa-lightbulb' },
     { key: 'crown', icon: 'fa-solid fa-crown' },
     { key: 'zirconia', icon: 'fa-solid fa-shield-halved' },
