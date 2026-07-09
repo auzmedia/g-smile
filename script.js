@@ -248,19 +248,26 @@ function loadServicesWithIcons() {
     const servicesGrid = document.getElementById('servicesGrid');
     servicesGrid.innerHTML = '';
     const services = getServices();
+    
     services.forEach((service, index) => {
         const card = document.createElement('div');
         card.className = 'service-card animate-fade-up';
         card.style.transitionDelay = (index * 0.08) + 's';
         card.onclick = () => selectService(service.key);
+        
+        // BU YER O'ZGARTIRILDI: 
+        // ${service.icon} endi klass nomini beradi va <i> tegi ichiga olinadi
         card.innerHTML = `
-            <div class="service-icon">${service.icon}</div>
+            <div class="service-icon">
+                <i class="${service.icon}"></i>
+            </div>
             <h3>${service.name}</h3>
             <p>${t('price_title')}: <b>${service.price}</b>. ${t('service_click')}.</p>
         `;
         servicesGrid.appendChild(card);
     });
 
+    
     const serviceSelect = document.getElementById('xizmat');
     const currentValue = serviceSelect.value;
     serviceSelect.innerHTML = '';
