@@ -150,23 +150,23 @@ const SCRIPT_URL = '#';
 
 // Xizmatlar ma'lumotlari
 const serviceKeys = [
-    { key: 'consultation', icon: '🩺' },
-    { key: 'extraction', icon: '🦷' },
-    { key: 'caries', icon: '💎' },
-    { key: 'pulpitis', icon: '🔬' },
-    { key: 'cleaning', icon: '✨' },
-    { key: 'whitening', icon: '💡' },
-    { key: 'crown', icon: '👑' },
-    { key: 'zirconia', icon: '🛡' },
-    { key: 'veneer', icon: '🌟' },
-    { key: 'implant', icon: '🔩' },
-    { key: 'braces', icon: '⛓️' },
-    { key: 'gum', icon: '🩸' },
-    { key: 'fissure', icon: '🧒' },
-    { key: 'xray', icon: '📸' },
-    { key: 'nightguard', icon: '🌙' },
-    { key: 'wisdom', icon: '🦷' },
-    { key: 'aligners', icon: '✨' }
+    { key: 'consultation', icon: 'fa-solid fa-stethoscope' },
+    { key: 'extraction', icon: 'fa-solid fa-tooth' },
+    { key: 'caries', icon: 'fa-solid fa-gem' },
+    { key: 'pulpitis', icon: 'fa-solid fa-microscope' },
+    { key: 'cleaning', icon: 'fa-solid fa-sparkles' }, // Yoki fa-solid fa-broom
+    { key: 'whitening', icon: 'fa-solid fa-lightbulb' },
+    { key: 'crown', icon: 'fa-solid fa-crown' },
+    { key: 'zirconia', icon: 'fa-solid fa-shield-halved' },
+    { key: 'veneer', icon: 'fa-solid fa-star' },
+    { key: 'implant', icon: 'fa-solid fa-screwdriver-wrench' },
+    { key: 'braces', icon: 'fa-solid fa-link' },
+    { key: 'gum', icon: 'fa-solid fa-droplet' },
+    { key: 'fissure', icon: 'fa-solid fa-child' },
+    { key: 'xray', icon: 'fa-solid fa-camera' },
+    { key: 'nightguard', icon: 'fa-solid fa-moon' },
+    { key: 'wisdom', icon: 'fa-solid fa-tooth' },
+    { key: 'aligners', icon: 'fa-solid fa-wand-magic-sparkles' }
 ];
 
 function getServices() {
