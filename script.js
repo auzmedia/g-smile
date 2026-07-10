@@ -10,7 +10,7 @@ const langSelect = document.getElementById('lang-select');
 let currentLang = localStorage.getItem('lang') || 'ru';
 
 // Google Apps Script URL – o‘zingizning deploy manzilingiz bilan almashtiring
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxkWLWAEvCnZ6kLLojArKgnKspOL-5I05Z1nQVJlaoLgwxJ6VI7sIZzMxivE1t4PDPHxQ/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw_bYCP4deZddGObiRbyh46kTPKGFofCDcCIU8bOXp-2jx6M4QAcRIszBdWCuuafrVjKA/exec';
 
 // ============================================================
 // 2. TARJIMA FUNKSIYASI
@@ -458,14 +458,18 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
     loading.style.display = 'block';
     loading.textContent = t('sending');
 
+    // O'ZGARISH: ism, familiya va tilni alohida yuboramiz
     const orderData = {
-        fio: familiya + ' ' + ism,
+        ism: ism,
+        familiya: familiya,
         nomer: '+996 ' + nomer,
         serviceKey: serviceKey,
+        serviceNameTelegram: t(`service_${serviceKey}`), // Telegram uchun tarjima qilingan xizmat nomi
         shifokor: shifokor,
         vaqt: selectedTime,
         sana: sana,
         izoh: izoh,
+        lang: currentLang, // Telegram bot qaysi tilda yozishini bilishi uchun
         timestamp: new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Bishkek' })
     };
 
@@ -473,7 +477,7 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
         const response = await fetch(SCRIPT_URL, {
             method: 'POST',
             mode: 'cors',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // Apps Script CORS uchun text/plain ishlatgan ma'qul
             body: JSON.stringify(orderData)
         });
 
