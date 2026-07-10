@@ -383,13 +383,11 @@ function showNotification(message, type) {
 }
 
 // ============================================================
-// FORMA YUBORISH (POST) – TO‘LIQ KOD
+// FORMA YUBORISH (POST) – CORS REJIMIDA
 // ============================================================
 document.getElementById('orderForm').addEventListener('submit', async function(e) {
-    // 1. Formaning default yuborilishini to‘xtatamiz
     e.preventDefault();
 
-    // 2. Barcha maydonlarni o‘qiymiz
     const ism = document.getElementById('ism').value.trim();
     const familiya = document.getElementById('familiya').value.trim();
     const nomer = document.getElementById('nomer').value.trim();
@@ -399,20 +397,17 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
     const sana = document.getElementById('sana').value;
     const izoh = document.getElementById('izoh').value.trim();
 
-    // 3. Majburiy maydonlarni tekshiramiz
     if (!ism || !familiya || !nomer || !serviceKey || !shifokor || !selectedTime || !sana) {
         showNotification(t('fill_all_fields'), 'error');
         return;
     }
 
-    // 4. Telefon raqami 9 ta raqamdan iboratligini tekshiramiz
     const digits = nomer.replace(/\D/g, '');
     if (digits.length !== 9) {
         showNotification(t('phone_9_digits'), 'error');
         return;
     }
 
-    // 5. Yuborish tugmasi va loading holatini boshqaramiz
     const submitBtn = document.querySelector('.submit-btn');
     const loading = document.querySelector('.loading');
     submitBtn.style.opacity = '0.5';
@@ -420,46 +415,43 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
     loading.style.display = 'block';
     loading.textContent = t('sending');
 
-    // 6. Serverga yuboriladigan maʼlumotlarni tayyorlaymiz
     const orderData = {
-        fio: familiya + ' ' + ism,           // "Familiya Ism"
-        nomer: '+996 ' + nomer,               // "+996 557 702 270"
-        serviceKey: serviceKey,               // "caries", "consultation" va h.k.
-        shifokor: shifokor,                   // "Arapov Islambek"
-        vaqt: selectedTime,                   // "14:30"
-        sana: sana,                           // "2026-07-12"
-        izoh: izoh,                           // "Og'riq bor"
+        fio: familiya + ' ' + ism,
+        nomer: '+996 ' + nomer,
+        serviceKey: serviceKey,
+        shifokor: shifokor,
+        vaqt: selectedTime,
+        sana: sana,
+        izoh: izoh,
         timestamp: new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Bishkek' })
     };
 
-    // 7. So‘rovni yuboramiz
     try {
-        // Google Apps Script ga POST so‘rov yuboramiz
-        // 'no-cors' rejimi CORS muammosini oldini oladi
+        // 🔥 ENDI 'cors' REJIMIDA – JAVOB O'QILADI
         const response = await fetch(SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors',
+            mode: 'cors',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(orderData)
         });
 
-        // 'no-cors' da response body o‘qilmaydi, lekin so‘rov ketadi.
-        // Shuning uchun muvaffaqiyat deb hisoblaymiz.
-        showNotification(t('booking_success', { name: ism, doctor: shifokor, time: selectedTime }), 'success');
+        // Javobni o'qiymiz
+        const result = await response.json();
+        console.log('Server javobi:', result);
 
-        // 8. Formani tozalaymiz
-        document.getElementById('orderForm').reset();
-        document.getElementById('sana').value = new Date().toISOString().split('T')[0];
-
-        // 9. Band vaqtlarni qayta yuklaymiz (yangi bandliklar uchun)
-        generateTimeSlots();
+        if (result.status === 'ok') {
+            showNotification(t('booking_success', { name: ism, doctor: shifokor, time: selectedTime }), 'success');
+            document.getElementById('orderForm').reset();
+            document.getElementById('sana').value = new Date().toISOString().split('T')[0];
+            generateTimeSlots();
+        } else {
+            showNotification(result.message || t('booking_error'), 'error');
+        }
 
     } catch (error) {
-        // 10. Xatolik bo‘lsa foydalanuvchiga ko‘rsatamiz
-        showNotification(t('booking_error'), 'error');
         console.error('Fetch error:', error);
+        showNotification(t('booking_error'), 'error');
     } finally {
-        // 11. Tugma va loading holatini tiklaymiz
         submitBtn.style.opacity = '1';
         submitBtn.disabled = false;
         loading.style.display = 'none';
