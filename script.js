@@ -9,8 +9,8 @@ const langSelect = document.getElementById('lang-select');
 
 let currentLang = localStorage.getItem('lang') || 'ru';
 
-// Google Apps Script URL (o‘zingiznikiga almashtiring)
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzafrWIaKUW5djf5H5Tl5u5rObulhNvgMdWAmtMG3fkkUope1QWt76bXNEBpXQKtvQVCw/exec';
+// Google Apps Script URL – o‘zingizning deploy manzilingiz bilan almashtiring
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwtmBXGQd1k4Qsn2ayjZBwpYdWo_v31F772OU-bJ9a9kOK7E8k9qbCNDYtU06HBx6Fb0A/exec';
 
 // ============================================================
 // 2. TARJIMA FUNKSIYASI
@@ -383,7 +383,7 @@ function showNotification(message, type) {
 }
 
 // ============================================================
-// 10. FORMA YUBORISH (POST - no-cors) – O‘ZGARTIRILDI
+// 10. FORMA YUBORISH (POST - no-cors)
 // ============================================================
 document.getElementById('orderForm').addEventListener('submit', async function(e) {
     e.preventDefault();
