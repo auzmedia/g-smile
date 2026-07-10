@@ -10,7 +10,7 @@ const langSelect = document.getElementById('lang-select');
 let currentLang = localStorage.getItem('lang') || 'ru';
 
 // Google Apps Script URL – o‘zingizning deploy manzilingiz bilan almashtiring
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx7UN5rgcG5eg-AKk6_kPSMVx662kJDJ0G4r72aUOsJDS619Sl9zqlM-ljBuxEw2flylw/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxkWLWAEvCnZ6kLLojArKgnKspOL-5I05Z1nQVJlaoLgwxJ6VI7sIZzMxivE1t4PDPHxQ/exec';
 
 // ============================================================
 // 2. TARJIMA FUNKSIYASI
@@ -383,7 +383,7 @@ function showNotification(message, type) {
 }
 
 // ============================================================
-// FORMA YUBORISH (POST) – CORS REJIMIDA
+// FORMA YUBORISH (POST) – CORS BILAN ISHLAYDI
 // ============================================================
 document.getElementById('orderForm').addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -427,7 +427,7 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
     };
 
     try {
-        // 🔥 ENDI 'cors' REJIMIDA – JAVOB O'QILADI
+        // 🔥 ENDI 'cors' rejimida ishlaydi – Apps Script da CORS sarlavhalari qo‘shilgan
         const response = await fetch(SCRIPT_URL, {
             method: 'POST',
             mode: 'cors',
@@ -435,7 +435,7 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
             body: JSON.stringify(orderData)
         });
 
-        // Javobni o'qiymiz
+        // Javobni o‘qiymiz
         const result = await response.json();
         console.log('Server javobi:', result);
 
