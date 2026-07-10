@@ -10,7 +10,7 @@ const langSelect = document.getElementById('lang-select');
 let currentLang = localStorage.getItem('lang') || 'ru';
 
 // Google Apps Script URL (o‘zingiznikiga almashtiring)
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwJwrtjNhpKyk7gjTdWcLVaCV0nRrNe6MTQwWU0Oaqugt7Oho9I1mo8QgZQgj88Genu2w/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxIxjz85B68DCzIslUzsqZ3GB2WX8PprgSLRCX8U0Kd8yD0kIL_pe5DipgrsLcswZKLtg/exec';
 
 // ============================================================
 // 2. TARJIMA FUNKSIYASI
