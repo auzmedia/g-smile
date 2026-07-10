@@ -10,7 +10,7 @@ const langSelect = document.getElementById('lang-select');
 let currentLang = localStorage.getItem('lang') || 'ru';
 
 // Google Apps Script URL – o‘zingizning deploy manzilingiz bilan almashtiring
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwFsu1oHztRu59giImpfLE9HVwtUn5h6AS4JoydFIhUn2FUTJH5DtmyPgqCZwo009SbsQ/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx7UN5rgcG5eg-AKk6_kPSMVx662kJDJ0G4r72aUOsJDS619Sl9zqlM-ljBuxEw2flylw/exec';
 
 // ============================================================
 // 2. TARJIMA FUNKSIYASI
