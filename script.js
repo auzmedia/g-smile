@@ -10,7 +10,7 @@ const langSelect = document.getElementById('lang-select');
 let currentLang = localStorage.getItem('lang') || 'ru';
 
 // Google Apps Script URL (o‘zingiznikiga almashtiring)
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxIxjz85B68DCzIslUzsqZ3GB2WX8PprgSLRCX8U0Kd8yD0kIL_pe5DipgrsLcswZKLtg/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzafrWIaKUW5djf5H5Tl5u5rObulhNvgMdWAmtMG3fkkUope1QWt76bXNEBpXQKtvQVCw/exec';
 
 // ============================================================
 // 2. TARJIMA FUNKSIYASI
@@ -38,7 +38,7 @@ function setLanguage(lang) {
     loadServicesWithIcons();
     loadPrices();
     loadDoctors();
-    generateTimeSlots(); // JSONP orqali
+    generateTimeSlots();
     setTimeout(initAnimations, 300);
 }
 
@@ -160,7 +160,7 @@ function loadServicesWithIcons() {
 
     getAllPrices().forEach(service => {
         const option = document.createElement('option');
-        option.value = service.name;
+        option.value = service.key; // 🔥 value sifatida key saqlanadi
         option.textContent = `${service.name} (${service.price})`;
         serviceSelect.appendChild(option);
     });
@@ -173,7 +173,7 @@ function selectService(serviceKey) {
     const select = document.getElementById('xizmat');
     let found = false;
     for (let i = 0; i < select.options.length; i++) {
-        if (select.options[i].value === serviceName) {
+        if (select.options[i].value === serviceKey) {
             select.selectedIndex = i;
             found = true;
             break;
@@ -181,10 +181,10 @@ function selectService(serviceKey) {
     }
     if (!found) {
         const option = document.createElement('option');
-        option.value = serviceName;
+        option.value = serviceKey;
         option.textContent = serviceName;
         select.appendChild(option);
-        select.value = serviceName;
+        select.value = serviceKey;
     }
     document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
     showNotification(t('service_selected', { service: serviceName }), 'success');
@@ -383,7 +383,7 @@ function showNotification(message, type) {
 }
 
 // ============================================================
-// 10. FORMA YUBORISH (POST - no-cors)
+// 10. FORMA YUBORISH (POST - no-cors) – O‘ZGARTIRILDI
 // ============================================================
 document.getElementById('orderForm').addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -391,13 +391,13 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
     const ism = document.getElementById('ism').value.trim();
     const familiya = document.getElementById('familiya').value.trim();
     const nomer = document.getElementById('nomer').value.trim();
-    const xizmat = document.getElementById('xizmat').value;
+    const serviceKey = document.getElementById('xizmat').value; // 🔥 endi key saqlanadi
     const shifokor = document.getElementById('shifokor').value;
     const selectedTime = document.getElementById('vaqt_select').value;
     const sana = document.getElementById('sana').value;
     const izoh = document.getElementById('izoh').value.trim();
 
-    if (!ism || !familiya || !nomer || !xizmat || !shifokor || !selectedTime || !sana) {
+    if (!ism || !familiya || !nomer || !serviceKey || !shifokor || !selectedTime || !sana) {
         showNotification(t('fill_all_fields'), 'error');
         return;
     }
@@ -418,7 +418,7 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
     const orderData = {
         fio: familiya + ' ' + ism,
         nomer: '+996 ' + nomer,
-        xizmat: xizmat,
+        serviceKey: serviceKey,          // 🔥 kalit yuboriladi
         shifokor: shifokor,
         vaqt: selectedTime,
         sana: sana,
@@ -437,7 +437,7 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
         showNotification(t('booking_success', { name: ism, doctor: shifokor, time: selectedTime }), 'success');
         document.getElementById('orderForm').reset();
         document.getElementById('sana').value = new Date().toISOString().split('T')[0];
-        generateTimeSlots(); // yangi band vaqtlarni yuklash
+        generateTimeSlots();
     } catch (error) {
         showNotification(t('booking_error'), 'error');
         console.error(error);
@@ -483,7 +483,6 @@ function init() {
     sanaInput.addEventListener('change', generateTimeSlots);
 
     generateTimeSlots();
-
     initSlider();
     setTimeout(initAnimations, 200);
 }
