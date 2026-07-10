@@ -11,7 +11,7 @@ const langSelect = document.getElementById('lang-select');
 let currentLang = localStorage.getItem('lang') || 'ru';
 
 // Google Apps Script URL (o‘zingizning deploy URL bilan almashtiring)
-const SCRIPT_URL = 'https://script.google.com/macros/s/.../exec'; // <-- O‘ZGARTIRING
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyd37nJZu8LeLR4hs3RcgbxCL7rmYLTO0IXMSm-3gGPCGpmFiGeO7hnM2y50oIRcxAZ8w/exec'; // <-- O‘ZGARTIRING
 
 // ============================================================
 // 2. TARJIMA FUNKSIYASI
