@@ -474,10 +474,9 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
     };
 
     try {
+      
         const response = await fetch(SCRIPT_URL, {
             method: 'POST',
-            mode: 'cors',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // Apps Script CORS uchun text/plain ishlatgan ma'qul
             body: JSON.stringify(orderData)
         });
 
