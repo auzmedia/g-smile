@@ -160,7 +160,7 @@ function loadServicesWithIcons() {
 
     getAllPrices().forEach(service => {
         const option = document.createElement('option');
-        option.value = service.key; // 🔥 value sifatida key saqlanadi
+        option.value = service.key;
         option.textContent = `${service.name} (${service.price})`;
         serviceSelect.appendChild(option);
     });
@@ -264,19 +264,26 @@ function loadDoctors() {
 }
 
 // ============================================================
-// 7. BAND VAQTLARNI JSONP ORQALI OLISH
+// 7. BAND VAQTLARNI JSONP ORQALI OLISH (TUZATILGAN)
 // ============================================================
 window.bookedSlotsCallback = function(data) {
+    console.log('✅ JSONP callback received:', data);
     if (data.status === 'ok' && Array.isArray(data.booked)) {
         window._bookedSlots = data.booked;
     } else {
         window._bookedSlots = [];
+    }
+    // Fallback taymerni bekor qilamiz
+    if (window._timeoutId) {
+        clearTimeout(window._timeoutId);
+        window._timeoutId = null;
     }
     populateTimeSelect();
 };
 
 function generateTimeSlots() {
     const sana = document.getElementById('sana').value;
+    console.log('📅 generateTimeSlots called, date:', sana);
     if (!sana) {
         const timeSelect = document.getElementById('vaqt_select');
         timeSelect.innerHTML = '';
@@ -287,13 +294,44 @@ function generateTimeSlots() {
         return;
     }
 
+    // oldingi skriptlarni tozalash
+    const oldScript = document.querySelector('script[data-timeslots]');
+    if (oldScript) oldScript.remove();
+
+    // JSONP so‘rovi
     const script = document.createElement('script');
+    script.setAttribute('data-timeslots', 'true');
     script.src = `${SCRIPT_URL}?action=getBookedSlots&callback=bookedSlotsCallback&t=${Date.now()}`;
+    
+    // Xatolik yuz bersa
+    script.onerror = function() {
+        console.warn('⚠️ JSONP script loading error, using empty booked slots');
+        window._bookedSlots = [];
+        if (window._timeoutId) {
+            clearTimeout(window._timeoutId);
+            window._timeoutId = null;
+        }
+        populateTimeSelect();
+    };
+    
     document.head.appendChild(script);
-    script.onload = () => script.remove();
+    console.log('📡 JSONP request sent');
+
+    // Fallback: agar 5 soniya ichida javob kelmasa, bo‘sh ro‘yxat bilan davom etamiz
+    if (window._timeoutId) clearTimeout(window._timeoutId);
+    window._timeoutId = setTimeout(function() {
+        console.warn('⏰ JSONP timeout, using empty booked slots');
+        window._bookedSlots = [];
+        populateTimeSelect();
+        // skriptni olib tashlash (agar hali yuklanmagan bo‘lsa)
+        const s = document.querySelector('script[data-timeslots]');
+        if (s) s.remove();
+        window._timeoutId = null;
+    }, 5000);
 }
 
 function populateTimeSelect() {
+    console.log('🕒 populateTimeSelect called');
     const timeSelect = document.getElementById('vaqt_select');
     const sana = document.getElementById('sana').value;
     if (!sana) {
@@ -310,6 +348,8 @@ function populateTimeSelect() {
         .filter(item => item.date === sana)
         .map(item => item.time);
 
+    console.log('📋 Booked times for', sana, ':', bookedTimes);
+
     timeSelect.innerHTML = '';
     const defaultOpt = document.createElement('option');
     defaultOpt.value = '';
@@ -322,14 +362,17 @@ function populateTimeSelect() {
         allSlots.push(`${String(hour).padStart(2, '0')}:30`);
     }
 
+    let addedCount = 0;
     allSlots.forEach(slot => {
         if (!bookedTimes.includes(slot)) {
             const opt = document.createElement('option');
             opt.value = slot;
             opt.textContent = slot;
             timeSelect.appendChild(opt);
+            addedCount++;
         }
     });
+    console.log(`✅ Added ${addedCount} available time slots`);
 }
 
 // ============================================================
@@ -383,7 +426,7 @@ function showNotification(message, type) {
 }
 
 // ============================================================
-// FORMA YUBORISH (POST) – CORS BILAN ISHLAYDI
+// 10. FORMA YUBORISH (CORS BILAN)
 // ============================================================
 document.getElementById('orderForm').addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -427,7 +470,6 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
     };
 
     try {
-        // 🔥 ENDI 'cors' rejimida ishlaydi – Apps Script da CORS sarlavhalari qo‘shilgan
         const response = await fetch(SCRIPT_URL, {
             method: 'POST',
             mode: 'cors',
@@ -435,7 +477,6 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
             body: JSON.stringify(orderData)
         });
 
-        // Javobni o‘qiymiz
         const result = await response.json();
         console.log('Server javobi:', result);
 
@@ -497,4 +538,5 @@ function init() {
     setTimeout(initAnimations, 200);
 }
 
+window.addEventListener('DOMContentLoaded', init);
 window.addEventListener('DOMContentLoaded', init);
