@@ -10,7 +10,7 @@ const langSelect = document.getElementById('lang-select');
 let currentLang = localStorage.getItem('lang') || 'ru';
 
 // Google Apps Script URL – o‘zingizning deploy manzilingiz bilan almashtiring
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwtmBXGQd1k4Qsn2ayjZBwpYdWo_v31F772OU-bJ9a9kOK7E8k9qbCNDYtU06HBx6Fb0A/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwY3AvxwsOc9dRq9LENAwoqkbw3HPoY2odDze05SybHOYSBkH73X6z4dIN5lbQ0lVo98g/exec';
 
 // ============================================================
 // 2. TARJIMA FUNKSIYASI
@@ -383,31 +383,36 @@ function showNotification(message, type) {
 }
 
 // ============================================================
-// 10. FORMA YUBORISH (POST - no-cors)
+// FORMA YUBORISH (POST) – TO‘LIQ KOD
 // ============================================================
 document.getElementById('orderForm').addEventListener('submit', async function(e) {
+    // 1. Formaning default yuborilishini to‘xtatamiz
     e.preventDefault();
 
+    // 2. Barcha maydonlarni o‘qiymiz
     const ism = document.getElementById('ism').value.trim();
     const familiya = document.getElementById('familiya').value.trim();
     const nomer = document.getElementById('nomer').value.trim();
-    const serviceKey = document.getElementById('xizmat').value; // 🔥 endi key saqlanadi
+    const serviceKey = document.getElementById('xizmat').value;
     const shifokor = document.getElementById('shifokor').value;
     const selectedTime = document.getElementById('vaqt_select').value;
     const sana = document.getElementById('sana').value;
     const izoh = document.getElementById('izoh').value.trim();
 
+    // 3. Majburiy maydonlarni tekshiramiz
     if (!ism || !familiya || !nomer || !serviceKey || !shifokor || !selectedTime || !sana) {
         showNotification(t('fill_all_fields'), 'error');
         return;
     }
 
+    // 4. Telefon raqami 9 ta raqamdan iboratligini tekshiramiz
     const digits = nomer.replace(/\D/g, '');
     if (digits.length !== 9) {
         showNotification(t('phone_9_digits'), 'error');
         return;
     }
 
+    // 5. Yuborish tugmasi va loading holatini boshqaramiz
     const submitBtn = document.querySelector('.submit-btn');
     const loading = document.querySelector('.loading');
     submitBtn.style.opacity = '0.5';
@@ -415,33 +420,46 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
     loading.style.display = 'block';
     loading.textContent = t('sending');
 
+    // 6. Serverga yuboriladigan maʼlumotlarni tayyorlaymiz
     const orderData = {
-        fio: familiya + ' ' + ism,
-        nomer: '+996 ' + nomer,
-        serviceKey: serviceKey,          // 🔥 kalit yuboriladi
-        shifokor: shifokor,
-        vaqt: selectedTime,
-        sana: sana,
-        izoh: izoh,
+        fio: familiya + ' ' + ism,           // "Familiya Ism"
+        nomer: '+996 ' + nomer,               // "+996 557 702 270"
+        serviceKey: serviceKey,               // "caries", "consultation" va h.k.
+        shifokor: shifokor,                   // "Arapov Islambek"
+        vaqt: selectedTime,                   // "14:30"
+        sana: sana,                           // "2026-07-12"
+        izoh: izoh,                           // "Og'riq bor"
         timestamp: new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Bishkek' })
     };
 
+    // 7. So‘rovni yuboramiz
     try {
-        await fetch(SCRIPT_URL, {
+        // Google Apps Script ga POST so‘rov yuboramiz
+        // 'no-cors' rejimi CORS muammosini oldini oladi
+        const response = await fetch(SCRIPT_URL, {
             method: 'POST',
             mode: 'no-cors',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(orderData)
         });
 
+        // 'no-cors' da response body o‘qilmaydi, lekin so‘rov ketadi.
+        // Shuning uchun muvaffaqiyat deb hisoblaymiz.
         showNotification(t('booking_success', { name: ism, doctor: shifokor, time: selectedTime }), 'success');
+
+        // 8. Formani tozalaymiz
         document.getElementById('orderForm').reset();
         document.getElementById('sana').value = new Date().toISOString().split('T')[0];
+
+        // 9. Band vaqtlarni qayta yuklaymiz (yangi bandliklar uchun)
         generateTimeSlots();
+
     } catch (error) {
+        // 10. Xatolik bo‘lsa foydalanuvchiga ko‘rsatamiz
         showNotification(t('booking_error'), 'error');
-        console.error(error);
+        console.error('Fetch error:', error);
     } finally {
+        // 11. Tugma va loading holatini tiklaymiz
         submitBtn.style.opacity = '1';
         submitBtn.disabled = false;
         loading.style.display = 'none';
