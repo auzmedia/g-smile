@@ -1,254 +1,258 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Галерея Улыбок — Современная стоматология в Оше</title>
-<meta name="description" content="Стоматологическая клиника Галерея Улыбок в Оше. Профессиональное лечение зубов, имплантация, виниры и эстетическая стоматология." />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Галерея Улыбок — Современная стоматология</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
 
-<header class="hero" id="main">
-<div class="hero-bg">
-<div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1800&q=80')"></div>
-<div class="slide" style="background-image:url('https://images.unsplash.com/photo-1606813907291-d86efa9b94db?auto=format&fit=crop&w=1800&q=80')"></div>
-<div class="slide" style="background-image:url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=1800&q=80')"></div>
-</div>
-
-<div class="topbar">
-<div class="container nav">
-<a href="#main" class="brand">
-<!-- <img src="logo.png" alt="." class="logo-img"> -->
-<div>
-<div><i class="fa-solid fa-tooth"></i> Галерея Улыбок</div>
-<small style="color:var(--muted);font-weight:700">Стоматология г. Ош</small>
-</div>
-</a>
-
-<button class="menu-toggle" id="menuToggle" aria-label="Меню">
-<i class="fa fa-bars"></i>
-</button>
-
-<div class="nav-links" id="navLinks">
-    <div class="nav-main">
+  <!-- NAVBAR -->
+  <nav>
+    <div class="nav-container">
+      <a href="#main" class="logo">
+        <i class="fa-solid fa-tooth"></i>
+        <span>G-Smile</span>
+      </a>
+      
+      <div class="nav-links" id="navLinks">
         <a href="#main" data-i18n="main">Главное</a>
         <a href="#services" data-i18n="services">Услуги</a>
         <a href="#prices" data-i18n="prices">Цены</a>
         <a href="#doctors" data-i18n="doctors">Врачи</a>
-        <a href="#certificates" data-i18n="certificates">Сертификаты</a>
-    </div>
-    <div class="nav-right">
-        <select id="lang-select">
-            <option value="uz">UZ</option>
-            <option value="en">EN</option>
-            <option value="ru" selected>RU</option>
-        </select>
-        <button id="theme-toggle" class="theme-btn"><i class="fa-solid fa-moon"></i></button>
-        <a href="tel:0557702270" class="btn" style="padding:10px 30px; font-size:14px; white-space:nowrap;">
-            <i class="fa fa-phone"></i> 0557702270
-        </a>
-    </div>
-</div>
-</div>
+        <a href="#contact" data-i18n="contact_title">Контакты</a>
+      </div>
 
-<div class="hero-content">
-<div>
-<div class="eyebrow"><i class="fa fa-star"></i> <span data-i18n="hero_badge">Высокие технологии цифровой стоматологии</span></div>
-<h1 data-i18n="hero_title">Безупречная эстетика и здоровье ваших зубов в Оше.</h1>
-<p data-i18n="hero_text">Инновационный подход медицинского центра «Галерея Улыбок». Мы объединили опыт ведущих специалистов южной столицы и передовое европейское оборудование для безболезненного лечения.</p>
-<div class="hero-actions">
-<a class="btn" href="#contact" data-i18n="btn_book">Записаться на прием</a>
-<a class="btn out" href="#services" data-i18n="btn_services">Наши услуги</a>
-</div>
-</div>
-<div class="hero-card glass">
-    <div class="hero-card-grid">
-    <div class="mini-stat"><b>10 000+</b><span data-i18n="stat_patients">счастливые пациенты</span></div>
-    <div class="mini-stat"><b>5 лет</b><span data-i18n="stat_experience">опыта на рынке</span></div>
-    <div class="mini-stat"><b>6</b><span data-i18n="stat_doctors">высококлассных врачей</span></div>
-    <div class="mini-stat"><b>3D</b><span data-i18n="stat_tech">Современные технологии</span></div>
+      <div class="controls">
+        <select id="lang-select">
+          <option value="ru">Русский</option>
+          <option value="uz">O'zbek</option>
+        </select>
+        <button id="theme-toggle" class="icon-btn">
+          <i class="fa-solid fa-moon" id="theme-icon"></i>
+        </button>
+        <button id="menuToggle" class="icon-btn menu-toggle">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
     </div>
-    <div class="carousel-dots" id="dots"></div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" id="main">
+    <div class="hero-bg"></div>
+    <div class="hero-content fade-in">
+      <div class="badge" data-i18n="hero_badge">Высокие технологии цифровой стоматологии</div>
+      <h1 data-i18n="hero_title">Красота и здоровье ваших зубов в Оше.</h1>
+      <p data-i18n="hero_text">Инновационный подход медицинского центра G-Smile. Мы объединили опыт ведущих специалистов южной столицы и передовое европейское оборудование для безболезненного лечения.</p>
+      <div class="hero-buttons">
+        <a href="#contact" class="btn-primary">
+          <i class="fa-solid fa-calendar-check"></i> <span data-i18n="btn_book">Записаться на прием</span>
+        </a>
+        <a href="#services" class="btn-secondary" data-i18n="btn_services">Наши услуги</a>
+      </div>
     </div>
+  </header>
+
+  <!-- STATS -->
+  <div class="stats fade-in">
+    <div class="stat-card">
+      <h3>5000+</h3>
+      <p data-i18n="stat_patients">счастливых пациентов</p>
     </div>
-    </header>
-    
-    <section class="section" id="services">
-    <div class="container">
-    <h2 class="title" data-i18n="services_title">Наши услуги</h2>
-    <p class="sub" data-i18n="services_sub">Современные методики лечения. Нажмите на нужную услугу, и она автоматически подставится в форму записи внизу страницы.</p>
-    <div class="grid-3" id="servicesGrid"></div>
+    <div class="stat-card">
+      <h3>10 <small>лет</small></h3>
+      <p data-i18n="stat_experience">опыта на рынке</p>
     </div>
-    </section>
-    
-    <section class="section" id="prices">
-    <div class="container">
-    <h2 class="title" data-i18n="price_title">Цены на услуги</h2>
-    <p class="sub" data-i18n="price_sub">Честное и прозрачное ценообразование без скрытых переплат. Цены указаны в сомах (KGS).</p>
-    <div class="price-box card" id="pricesList"></div>
+    <div class="stat-card">
+      <h3>15+</h3>
+      <p data-i18n="stat_doctors">высококлассных врачей</p>
     </div>
-    </section>
-    
-    <section class="section" id="why-us">
-    <div class="container">
-    <h2 class="title" data-i18n="why_title">Почему выбирают нас</h2>
-    <p class="sub" data-i18n="why_sub">Мы создали идеальные условия для того, чтобы лечение зубов ассоциировалось у вас исключительно с комфортом.</p>
+    <div class="stat-card">
+      <h3>100%</h3>
+      <p data-i18n="stat_tech">Современные технологии</p>
+    </div>
+  </div>
+
+  <!-- WHY US -->
+  <section id="why-us" class="fade-in">
+    <div class="section-title">
+      <h2 data-i18n="why_title">Почему выбирают нас</h2>
+      <p data-i18n="why_sub">Мы создали идеальные условия, чтобы лечение зубов ассоциировалось только с комфортом.</p>
+    </div>
     <div class="grid-3">
       <div class="card">
-        <img src="https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?auto=format&fit=crop&w=600&q=80" alt="Технологии" class="why-card-img">
-        <div style="padding:22px">
-          <h3 style="margin:0 0 10px;font-size:22px" data-i18n="why_tech_title">Современные технологии</h3>
-          <p style="color:var(--muted);line-height:1.75;margin:0" data-i18n="why_tech_text">Лечение под микроскопом, цифровая диагностика и 3D-моделирование будущей улыбки.</p>
-        </div>
+        <div class="icon-box"><i class="fa-solid fa-microscope"></i></div>
+        <h3 data-i18n="why_tech_title">Современные технологии</h3>
+        <p data-i18n="why_tech_text">Лечение под микроскопом, цифровая диагностика и 3D моделирование будущей улыбки.</p>
       </div>
       <div class="card">
-        <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=600&q=80" alt="Врачи" class="why-card-img">
-        <div style="padding:22px">
-          <h3 style="margin:0 0 10px;font-size:22px" data-i18n="why_doc_title">Опытные врачи</h3>
-          <p style="color:var(--muted);line-height:1.75;margin:0" data-i18n="why_doc_text">Наши специалисты регулярно проходят международное обучение и стажировки.</p>
-        </div>
+        <div class="icon-box"><i class="fa-solid fa-user-doctor"></i></div>
+        <h3 data-i18n="why_doc_title">Опытные врачи</h3>
+        <p data-i18n="why_doc_text">Наши специалисты регулярно проходят международные стажировки и обучения.</p>
       </div>
       <div class="card">
-        <img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=600&q=80" alt="График" class="why-card-img">
-        <div style="padding:22px">
-          <h3 style="margin:0 0 10px;font-size:22px" data-i18n="why_ind_title">Индивидуальный подход</h3>
-          <p style="color:var(--muted);line-height:1.75;margin:0" data-i18n="why_ind_text">Для каждого пациента составляется индивидуальный пошаговый комплексный план лечения.</p>
-        </div>
-      </div>
-      <div class="card" style="grid-column: span 1.5">
-        <img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=600&q=80" alt="График" class="why-card-img">
-        <div style="padding:22px">
-          <h3 style="margin:0 0 10px;font-size:22px" data-i18n="why_loc_title">Удобное местоположение</h3>
-          <p style="color:var(--muted);line-height:1.75;margin:0" data-i18n="why_loc_text">Находимся на улице Аскара Шакирова, 271. Удобная транспортная развязка и парковка.</p>
-        </div>
-      </div>
-      <div class="card" style="grid-column: span 1.5">
-        <img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=600&q=80" alt="График" class="why-card-img">
-        <div style="padding:22px">
-          <h3 style="margin:0 0 10px;font-size:22px" data-i18n="why_sched_title">Удобный график</h3>
-          <p style="color:var(--muted);line-height:1.75;margin:0" data-i18n="why_sched_text">Принимаем пациентов с 8:00 до 21:00. Вы успеете уделить время здоровью даже после работы.</p>
-        </div>
+        <div class="icon-box"><i class="fa-solid fa-hand-holding-medical"></i></div>
+        <h3 data-i18n="why_ind_title">Индивидуальный подход</h3>
+        <p data-i18n="why_ind_text">Для каждого пациента составляется пошаговый комплексный план лечения.</p>
       </div>
     </div>
+  </section>
+
+  <!-- SERVICES (Dynamic from JS) -->
+  <section id="services" class="fade-in">
+    <div class="section-title">
+      <h2 data-i18n="services_title">Наши услуги</h2>
+      <p data-i18n="services_sub">Современные методы лечения. Нажмите на нужную услугу, и она автоматически добавится в форму записи внизу страницы.</p>
     </div>
-    </section>
+    <div class="grid-3" id="servicesGrid">
+      <!-- Generated by JS -->
+    </div>
+  </section>
+
+  <!-- PRICES (Dynamic) -->
+  <section id="prices" class="fade-in">
+    <div class="section-title">
+      <h2 data-i18n="price_title">Цены</h2>
+      <p data-i18n="price_sub">Прозрачная ценовая политика без скрытых переплат. Цены указаны в сомах (KGS).</p>
+    </div>
+    <div class="grid-3" id="pricesList">
+      <!-- Generated by JS -->
+    </div>
+  </section>
+
+  <!-- DOCTORS (Dynamic) -->
+  <section id="doctors" class="fade-in">
+    <div class="section-title">
+      <h2 data-i18n="doctors_title">Наши врачи</h2>
+      <p data-i18n="doctors_sub">Доверьте свою улыбку профессионалам.</p>
+    </div>
+    <div class="grid-3" id="doctorsGrid">
+      <!-- Generated by JS -->
+    </div>
+  </section>
+
+  <!-- BOOKING FORM -->
+  <section id="contact" class="fade-in">
+    <div class="section-title">
+      <h2 data-i18n="contact_title">Записаться на прием</h2>
+      <p data-i18n="contact_sub">Оставьте заявку, и мы подберем удобное для вас время.</p>
+    </div>
     
-    <section class="section" id="doctors">
-    <div class="container">
-    <h2 class="title" data-i18n="doctors_title">Наши врачи</h2>
-    <p class="sub" data-i18n="doctors_sub">Команда сертифицированных профессионалов клиники «Галерея Улыбок».</p>
-    <div class="grid-3" id="doctorsGrid"></div>
-    </div>
-    </section>
-
-    <section class="section" id="certificates">
-        <div class="container">
-        <h2 class="title" data-i18n="cert_title">Сертификаты и рабочие места</h2>
-        <p class="sub" data-i18n="cert_sub">Наша клиника полностью лицензирована, а оборудование отвечает строгим международным медицинским стандартам.</p>
-        <div class="grid-4">
-          <div class="card"><img src="https://images.unsplash.com/photo-1629909615184-74f495363b67?auto=format&fit=crop&w=500&q=80" alt="Кабинет" class="cert-card-img"></div>
-          <div class="card"><img src="https://images.unsplash.com/photo-1512223792601-592a9809eed4?auto=format&fit=crop&w=500&q=80" alt="Оборудование" class="cert-card-img"></div>
-          <div class="card"><img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=500&q=80" alt="Сертификат" class="cert-card-img"></div>
-          <div class="card"><img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=500&q=80" alt="Стерилизационная" class="cert-card-img"></div>
-        </div>
-        </div>
-        </section>
-        
-        <section class="section" id="contact">
-        <div class="container">
-        <h2 class="title" data-i18n="contact_title">Онлайн запись</h2>
-        <p class="sub" data-i18n="contact_sub">Выберите желаемую услугу, врача и свободное время. Система автоматически скроет уже занятое время.</p>
-        <div class="form-box">
-        <form id="orderForm" class="form">
-        <div class="form-grid">
-         <div>
+    <form id="orderForm" class="booking-form">
+      <div class="form-group">
         <label for="ism" data-i18n="label_name">Имя</label>
-        <input id="ism" type="text" placeholder="Пример: Айбек" required>
-        </div>
-        <div>
+        <input type="text" id="ism" required>
+      </div>
+      <div class="form-group">
         <label for="familiya" data-i18n="label_surname">Фамилия</label>
-        <input id="familiya" type="text" placeholder="Пример: Кадыров" required>
-        </div>
-        <div class="phone-fixed">
-        <div class="phone-prefix">+996</div>
-        <div>
-        <label for="nomer" data-i18n="label_phone">Номер телефона</label>
-        <input id="nomer" type="tel" placeholder="557 702 270" inputmode="numeric" maxlength="11" required>
-        </div>
-        </div>
-        <div>
-        <label for="xizmat" data-i18n="label_service">Выбрать услугу</label>
+        <input type="text" id="familiya" required>
+      </div>
+      <div class="form-group">
+        <label for="nomer" data-i18n="label_phone">Телефон</label>
+        <input type="text" id="nomer" placeholder="0555 123 456" required>
+      </div>
+      <div class="form-group">
+        <label for="xizmat" data-i18n="label_service">Услуга</label>
         <select id="xizmat" required>
-        <option value="">-- Выберите услугу --</option>
+          <option value="consultation">Консультация</option>
         </select>
-        </div>
-        <div>
-        <label for="shifokor" data-i18n="label_doctor">Выбрать врача</label>
+      </div>
+      <div class="form-group">
+        <label for="shifokor" data-i18n="label_doctor">Врач</label>
         <select id="shifokor" required>
-        <option value="">-- Выберите врача --</option>
+          <option value="Any">Любой врач</option>
         </select>
-        </div>
-        <div>
-        <label for="sana" data-i18n="label_date">Kun</label>
-        <input id="sana" type="date" required>
-        </div>
-        <div>
-        <label for="vaqt_select" data-i18n="label_time">Выбрать время для записи</label>
+      </div>
+      <div class="form-group">
+        <label for="sana" data-i18n="label_date">Дата</label>
+        <input type="date" id="sana" required>
+      </div>
+      <div class="form-group">
+        <label for="vaqt_select" data-i18n="label_time">Время</label>
         <select id="vaqt_select" required>
-        <option value="">-- Сначала выберите дату/время --</option>
+          <option value="09:00">09:00</option>
         </select>
-        </div>
-        <div class="comment-full">
+      </div>
+      <div class="form-group full">
         <label for="izoh" data-i18n="label_comment">Комментарий</label>
-        <textarea id="izoh" placeholder="Опишите ваши симптомы или особые пожелания"></textarea>
-        </div>
-        </div>
-        
-        <button type="submit" class="btn submit-btn" style="width:fit-content" data-i18n="btn_submit">Записаться на прием</button>
-        <div class="loading hidden" style="color:var(--blue);font-weight:800; margin-top:10px;"></div>
-        <div class="success-message hidden" style="margin-top:12px;padding:12px 14px;border-radius:14px;border:1px solid transparent">
-        <span id="successMessage"></span>
-        </div>
-        </form>
-        </div>
-        </div>
-        </section>
+        <textarea id="izoh" rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn-primary btn-submit" id="submitBtn">
+        <span data-i18n="btn_submit">Записаться</span>
+        <div class="loading" style="display:none; margin-left:10px;"><i class="fa-solid fa-spinner fa-spin"></i></div>
+      </button>
+      <div id="successMessage" style="display:none; color: #10b981; margin-top: 10px; font-weight:bold; width: 100%; text-align: center;"></div>
+    </form>
+  </section>
 
-        <footer class="footer">
-            <div class="container footer-inner">
-            <div>
-            <div class="brand" style="margin-bottom:8px">
-            <!-- <img src="logo.png" alt="." class="logo-img"> -->
-            <div><i class="fa-solid fa-tooth"></i> Галерея Улыбок</div>
-            </div>
-            <div style="color:var(--muted)" data-i18n="footer_desc">Стоматологическая клиника нового поколения в Кыргызстане.</div>
-            <div class="socials">
-            <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-            <a href="https://t.me" target="_blank"><i class="fa-brands fa-telegram"></i></a>
-            <a href="https://facebook.com" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
-            </div>
-            </div>
-            <div>
-              <h4 style="margin:0 0 12px; color:var(--text)" data-i18n="footer_contacts">Контакты и адрес</h4>
-              <div style="margin-bottom:6px"><i class="fa fa-map-marker-alt" style="color:var(--blue); width:20px"></i> <span data-i18n="footer_address">г. Ош, ул. Аскара Шакирова, 271</span></div>
-              <div style="margin-bottom:6px"><i class="fa fa-phone" style="color:var(--blue); width:20px"></i> <a href="tel:+996557702270">+996 557 702 270</a></div>
-            </div>
-            <div>
-              <h4 style="margin:0 0 12px; color:var(--text)" data-i18n="footer_hours">График работы</h4>
-              <div style="margin-bottom:6px"><i class="fa fa-clock" style="color:var(--blue); width:20px"></i> <span data-i18n="footer_days">Понедельник — Суббота</span></div>
-              <div style="margin-bottom:6px; font-weight:700; padding-left:24px;">8:00 - 21:00</div>
-              <div style="color:red; padding-left:24px;"><i class="fa fa-calendar-times"></i> <span data-i18n="footer_sunday">Воскресенье — Выходной</span></div>
-            </div>
-            </div>
-            <div style="text-align:center; margin-top:40px; padding-top:20px; border-top:1px solid var(--line); font-size:13px; color:var(--muted)">
-              &copy; 2026 <span data-i18n="footer_copyright">Стоматология «Галерея Улыбок». Все права защищены.</span>
-            </div>
-            </footer>
-            <script type="module" src="script.js"></script>
-  </body>
-  </html>
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a href="#main" class="logo" style="margin-bottom: 1rem; display: inline-flex;">
+          <i class="fa-solid fa-tooth"></i> G-Smile
+        </a>
+        <p data-i18n="footer_desc">Инновационный центр стоматологии в Оше.</p>
+        <div class="socials">
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-telegram"></i></a>
+          <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer_contacts">Контакты</h4>
+        <p><i class="fa-solid fa-location-dot"></i> <span data-i18n="footer_address">г. Ош, ул. Ленина 123</span></p>
+        <p><i class="fa-solid fa-phone"></i> +996 555 123 456</p>
+      </div>
+      <div class="footer-col">
+        <h4 data-i18n="footer_hours">Режим работы</h4>
+        <p><span data-i18n="footer_days">Пн-Сб:</span> 09:00 - 19:00</p>
+        <p><span data-i18n="footer_sunday">Вс:</span> Выходной</p>
+      </div>
+    </div>
+    <div class="copyright">
+      <p data-i18n="footer_copyright">&copy; 2026 Галерея Улыбок. Все права защищены.</p>
+    </div>
+  </footer>
+
+  <script src="lang.js" type="module"></script>
+  <script src="script.js" type="module"></script>
+  <script>
+    // Intersection Observer for fade-in animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+    
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => navLinks.classList.remove('active'));
+    });
+    
+    // Simple theme icon toggle override (rest handled by script.js)
+    const themeBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    themeBtn.addEventListener('click', () => {
+        if(document.body.classList.contains('dark')) {
+            themeIcon.className = 'fa-solid fa-sun';
+        } else {
+            themeIcon.className = 'fa-solid fa-moon';
+        }
+    });
+  </script>
+</body>
+</html>
