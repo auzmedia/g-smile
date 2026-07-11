@@ -3,7 +3,10 @@ import { translations } from './lang.js';
 const body = document.body;
 const themeToggle = document.getElementById('theme-toggle');
 const langSelect = document.getElementById('lang-select');
+
 let currentLang = localStorage.getItem('lang') || 'ru';
+
+// Google Apps Script URL – оставить свой
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw_bYCP4deZddGObiRbyh46kTPKGFofCDcCIU8bOXp-2jx6M4QAcRIszBdWCuuafrVjKA/exec';
 
 function t(key, params = {}) {
@@ -14,199 +17,399 @@ function t(key, params = {}) {
 function setLanguage(lang) {
     currentLang = lang;
     localStorage.setItem('lang', lang);
+
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (translations[lang]?.[key]) el.innerHTML = translations[lang][key];
+        if (translations[lang] && translations[lang][key]) {
+            el.textContent = translations[lang][key];
+        }
     });
-    updatePlaceholders(); loadServicesWithIcons(); loadPrices(); loadDoctors(); generateTimeSlots();
+
+    updatePlaceholders();
+    loadServices();
+    loadPrices();
+    loadDoctors();
+    generateTimeSlots();
+    setTimeout(initAnimations, 300);
 }
 
 function updatePlaceholders() {
     document.getElementById('familiya').placeholder = t('placeholder_surname');
     document.getElementById('ism').placeholder = t('placeholder_name');
+    document.getElementById('nomer').placeholder = t('placeholder_phone');
+    document.getElementById('izoh').placeholder = t('placeholder_comment');
 }
 
 langSelect.onchange = (e) => setLanguage(e.target.value);
 
+// Theme Toggle
 if (localStorage.getItem('theme') === 'dark') body.classList.add('dark');
 themeToggle.onclick = () => {
     body.classList.toggle('dark');
     localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
-    themeToggle.querySelector('i').className = body.classList.contains('dark') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+    const icon = themeToggle.querySelector('i');
+    icon.className = body.classList.contains('dark') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
 };
-themeToggle.querySelector('i').className = body.classList.contains('dark') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+const icon = themeToggle.querySelector('i');
+icon.className = body.classList.contains('dark') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
 
+// Animations (Intersection Observer)
 function initAnimations() {
+    const animatedElements = document.querySelectorAll('.animate-fade-up, .animate-fade-left, .animate-scale');
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) entry.target.classList.add('visible');
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
         });
     }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-    document.querySelectorAll('.animate-fade-up, .animate-scale, .feature-card, .price-row').forEach(el => observer.observe(el));
+
+    animatedElements.forEach(el => observer.observe(el));
 }
 
-// Data Loaders
+// Data Keys
 const serviceKeys = [
-    { key: 'consultation', icon: 'fa-user-doctor' }, { key: 'extraction', icon: 'fa-tooth' },
-    { key: 'caries', icon: 'fa-bacterium' }, { key: 'pulpitis', icon: 'fa-disease' },
-    { key: 'cleaning', icon: 'fa-hands-bubbles' }, { key: 'whitening', icon: 'fa-wand-magic-sparkles' },
-    { key: 'crown', icon: 'fa-crown' }, { key: 'implant', icon: 'fa-screwdriver-wrench' }
+    { key: 'consultation', icon: 'fa-solid fa-stethoscope' },
+    { key: 'extraction', icon: 'fa-solid fa-tooth' },
+    { key: 'caries', icon: 'fa-solid fa-gem' },
+    { key: 'pulpitis', icon: 'fa-solid fa-microscope' },
+    { key: 'cleaning', icon: 'fa-solid fa-broom' },
+    { key: 'whitening', icon: 'fa-solid fa-lightbulb' },
+    { key: 'crown', icon: 'fa-solid fa-crown' },
+    { key: 'zirconia', icon: 'fa-solid fa-shield-halved' },
+    { key: 'veneer', icon: 'fa-solid fa-star' },
+    { key: 'implant', icon: 'fa-solid fa-screwdriver-wrench' },
+    { key: 'braces', icon: 'fa-solid fa-link' },
+    { key: 'gum', icon: 'fa-solid fa-droplet' },
+    { key: 'fissure', icon: 'fa-solid fa-child' },
+    { key: 'xray', icon: 'fa-solid fa-camera' },
+    { key: 'nightguard', icon: 'fa-solid fa-moon' },
+    { key: 'wisdom', icon: 'fa-solid fa-tooth' },
+    { key: 'aligners', icon: 'fa-solid fa-wand-magic-sparkles' }
 ];
 
-function loadServicesWithIcons() {
-    const servicesGrid = document.getElementById('servicesGrid');
-    servicesGrid.innerHTML = '';
-    const select = document.getElementById('xizmat');
-    select.innerHTML = `<option value="">${t('select_service')}</option>`;
-    
-    serviceKeys.forEach((s, index) => {
-        const name = t(`service_${s.key}`), price = t(`price_${s.key}`);
-        servicesGrid.innerHTML += `
-            <div class="service-card animate-fade-up" style="transition-delay: ${index * 0.05}s" onclick="selectService('${s.key}')">
-                <div class="service-icon"><i class="fa-solid ${s.icon}"></i></div>
-                <h3>${name}</h3>
-                <span class="service-price">${price}</span>
-            </div>`;
-        select.innerHTML += `<option value="${s.key}">${name} (${price})</option>`;
-    });
+function getServices() {
+    return serviceKeys.map(s => ({
+        name: t(`service_${s.key}`),
+        icon: s.icon,
+        price: t(`price_${s.key}`),
+        key: s.key
+    }));
 }
 
-function selectService(key) {
-    document.getElementById('xizmat').value = key;
+function loadServices() {
+    const servicesGrid = document.getElementById('servicesGrid');
+    servicesGrid.innerHTML = '';
+    const services = getServices();
+
+    services.forEach((service, index) => {
+        const card = document.createElement('div');
+        card.className = 'service-card animate-fade-up';
+        card.style.transitionDelay = `${(index % 4) * 0.1}s`;
+        card.onclick = () => selectService(service.key);
+        card.innerHTML = `
+            <div class="service-icon-wrap"><i class="${service.icon}"></i></div>
+            <h3>${service.name}</h3>
+            <p>${t('price_title')}: <b>${service.price}</b>.</p>
+        `;
+        servicesGrid.appendChild(card);
+    });
+
+    const serviceSelect = document.getElementById('xizmat');
+    const currentValue = serviceSelect.value;
+    serviceSelect.innerHTML = `<option value="">${t('select_service')}</option>`;
+    services.forEach(service => {
+        const option = document.createElement('option');
+        option.value = service.key;
+        option.textContent = `${service.name} (${service.price})`;
+        serviceSelect.appendChild(option);
+    });
+    if (currentValue) serviceSelect.value = currentValue;
+}
+
+window.selectService = function(serviceKey) {
+    const select = document.getElementById('xizmat');
+    select.value = serviceKey;
     document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-    showNotification(t('service_selected', { service: t(`service_${key}`) }), 'success');
+    showNotification(t('service_selected', { service: t(`service_${serviceKey}`) }), 'success');
 }
 
 function loadPrices() {
-    const list = document.getElementById('pricesList');
-    list.innerHTML = '';
-    serviceKeys.forEach((s, i) => {
-        list.innerHTML += `<div class="price-row animate-fade-up" style="transition-delay:${i*0.05}s"><span>${t(`service_${s.key}`)}</span><b>${t(`price_${s.key}`)}</b></div>`;
+    const pricesListBlock = document.getElementById('pricesList');
+    pricesListBlock.innerHTML = '';
+    getServices().forEach((item, index) => {
+        const row = document.createElement('div');
+        row.className = 'price-row animate-fade-left';
+        row.style.transitionDelay = `${(index % 8) * 0.05}s`;
+        row.innerHTML = `<span class="price-name">${item.name}</span><span class="price-val">${item.price}</span>`;
+        pricesListBlock.appendChild(row);
     });
+}
+
+function getDoctors() {
+    const doctorKeys = ['arapov', 'ermatov', 'salieva', 'kasymov', 'mamatova', 'abdullaev'];
+    const images = [
+        'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=500&q=80',
+        'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=500&q=80',
+        'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=500&q=80',
+        'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=500&q=80',
+        'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=500&q=80',
+        'https://images.unsplash.com/photo-1614608682850-e0d6ed316d47?auto=format&fit=crop&w=500&q=80'
+    ];
+    return doctorKeys.map((key, i) => ({
+        name: t(`doctor_${key}`),
+        role: t(`doctor_${key}_role`),
+        exp: t(`doctor_${key}_exp`),
+        image: images[i],
+        edu: t(`doctor_${key}_edu`),
+        key: key
+    }));
 }
 
 function loadDoctors() {
-    const grid = document.getElementById('doctorsGrid');
-    const select = document.getElementById('shifokor');
-    grid.innerHTML = ''; select.innerHTML = `<option value="">${t('select_doctor')}</option>`;
-    const docs = ['arapov', 'ermatov', 'salieva', 'kasymov', 'mamatova', 'abdullaev'];
-    const imgs = [
-        'https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=500', 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=500',
-        'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=500', 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=500',
-        'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=500', 'https://images.unsplash.com/photo-1614608682850-e0d6ed316d47?w=500'
-    ];
+    const doctorsGrid = document.getElementById('doctorsGrid');
+    doctorsGrid.innerHTML = '';
+    const doctors = getDoctors();
     
-    docs.forEach((key, i) => {
-        const name = t(`doctor_${key}`), role = t(`doctor_${key}_role`), exp = t(`doctor_${key}_exp`), edu = t(`doctor_${key}_edu`);
-        grid.innerHTML += `
-            <div class="doc-card animate-fade-up" style="transition-delay:${i*0.1}s">
-                <div class="doc-img" style="background-image:url(${imgs[i]})"></div>
-                <div class="doc-info">
-                    <span class="role">${role}</span>
-                    <h3>${name}</h3>
-                    <p class="exp"><i class="fa-solid fa-briefcase-medical"></i> ${exp}</p>
-                    <p class="edu">${edu}</p>
-                </div>
-            </div>`;
-        select.innerHTML += `<option value="${name}">${name} (${role.split(',')[0]})</option>`;
+    doctors.forEach((doc, index) => {
+        const card = document.createElement('div');
+        card.className = 'doctor-card animate-scale';
+        card.style.transitionDelay = `${(index % 3) * 0.1}s`;
+        card.innerHTML = `
+            <div class="doc-img-wrap"><img src="${doc.image}" alt="${doc.name}"></div>
+            <div class="doc-info">
+                <span class="doc-role">${doc.role}</span>
+                <h3>${doc.name}</h3>
+                <p class="exp"><i class="fa fa-briefcase text-accent"></i> ${doc.exp}</p>
+                <p class="edu">${doc.edu}</p>
+            </div>
+        `;
+        doctorsGrid.appendChild(card);
     });
+
+    const docSelect = document.getElementById('shifokor');
+    const currentValue = docSelect.value;
+    docSelect.innerHTML = `<option value="">${t('select_doctor')}</option>`;
+    doctors.forEach(doc => {
+        const option = document.createElement('option');
+        option.value = doc.name;
+        option.textContent = `${doc.name} (${doc.role.split(',')[0]})`;
+        docSelect.appendChild(option);
+    });
+    if (currentValue) docSelect.value = currentValue;
 }
 
-// JSONP & Time slots
-window.bookedSlotsCallback = (data) => {
-    window._bookedSlots = data.status === 'ok' ? data.booked : [];
-    if(window._timeoutId) clearTimeout(window._timeoutId);
+// JSONP Logic for Google Apps Script Time slots
+window.bookedSlotsCallback = function(data) {
+    if (data.status === 'ok' && Array.isArray(data.booked)) {
+        window._bookedSlots = data.booked;
+    } else {
+        window._bookedSlots = [];
+    }
+    if (window._timeoutId) {
+        clearTimeout(window._timeoutId);
+        window._timeoutId = null;
+    }
     populateTimeSelect();
 };
 
 function generateTimeSlots() {
     const sana = document.getElementById('sana').value;
-    if (!sana) return;
+    if (!sana) {
+        document.getElementById('vaqt_select').innerHTML = `<option value="">${t('select_time_available')}</option>`;
+        return;
+    }
+
+    const oldScript = document.querySelector('script[data-timeslots]');
+    if (oldScript) oldScript.remove();
+
     const script = document.createElement('script');
+    script.setAttribute('data-timeslots', 'true');
     script.src = `${SCRIPT_URL}?action=getBookedSlots&callback=bookedSlotsCallback&t=${Date.now()}`;
+    
+    script.onerror = function() {
+        window._bookedSlots = [];
+        populateTimeSelect();
+    };
+    
     document.head.appendChild(script);
-    window._timeoutId = setTimeout(() => { window._bookedSlots = []; populateTimeSelect(); }, 5000);
+
+    if (window._timeoutId) clearTimeout(window._timeoutId);
+    window._timeoutId = setTimeout(function() {
+        window._bookedSlots = [];
+        populateTimeSelect();
+        const s = document.querySelector('script[data-timeslots]');
+        if (s) s.remove();
+        window._timeoutId = null;
+    }, 5000);
 }
 
 function populateTimeSelect() {
-    const select = document.getElementById('vaqt_select');
+    const timeSelect = document.getElementById('vaqt_select');
     const sana = document.getElementById('sana').value;
-    select.innerHTML = `<option value="">${t('select_time_available')}</option>`;
-    const booked = (window._bookedSlots || []).filter(i => i.date === sana).map(i => i.time);
-    for (let h = 8; h < 21; h++) {
-        ['00', '30'].forEach(m => {
-            const time = `${String(h).padStart(2, '0')}:${m}`;
-            if (!booked.includes(time)) select.innerHTML += `<option value="${time}">${time}</option>`;
-        });
-    }
-}
+    if (!sana) return;
 
-// UI Elements
-function initFAQ() {
-    document.querySelectorAll('.faq-item').forEach(item => {
-        item.querySelector('.faq-q').onclick = () => {
-            const active = document.querySelector('.faq-item.active');
-            if(active && active !== item) active.classList.remove('active');
-            item.classList.toggle('active');
-        };
+    const booked = window._bookedSlots || [];
+    const bookedTimes = booked.filter(item => item.date === sana).map(item => item.time);
+
+    timeSelect.innerHTML = `<option value="">${t('select_time_available')}</option>`;
+    const allSlots = [];
+    for (let hour = 8; hour < 21; hour++) {
+        allSlots.push(`${String(hour).padStart(2, '0')}:00`);
+        allSlots.push(`${String(hour).padStart(2, '0')}:30`);
+    }
+
+    allSlots.forEach(slot => {
+        if (!bookedTimes.includes(slot)) {
+            const opt = document.createElement('option');
+            opt.value = slot; opt.textContent = slot;
+            timeSelect.appendChild(opt);
+        }
     });
 }
 
-function showNotification(msg, type) {
-    const box = document.querySelector('.success-message');
-    box.innerHTML = msg; box.className = `success-message ${type}`; box.style.display = 'block';
-    setTimeout(() => box.style.display = 'none', 5000);
+// Hero Slider
+function initSlider() {
+    const slides = document.querySelectorAll('.hero-bg .slide');
+    const dotsWrap = document.getElementById('dots');
+    let active = 0;
+
+    slides.forEach((_, i) => {
+        const dot = document.createElement('div');
+        dot.className = 'dot' + (i === 0 ? ' active' : '');
+        dot.onclick = () => {
+            slides[active].classList.remove('active');
+            dotsWrap.children[active].classList.remove('active');
+            active = i;
+            slides[active].classList.add('active');
+            dotsWrap.children[active].classList.add('active');
+        };
+        dotsWrap.appendChild(dot);
+    });
+
+    setInterval(() => {
+        slides[active].classList.remove('active');
+        dotsWrap.children[active].classList.remove('active');
+        active = (active + 1) % slides.length;
+        slides[active].classList.add('active');
+        dotsWrap.children[active].classList.add('active');
+    }, 5000);
+}
+
+// Notifications
+function showNotification(message, type) {
+    const box = document.getElementById('msgBox');
+    const span = document.getElementById('successMessage');
+    span.textContent = message;
+    box.classList.remove('hidden');
+    if (type === 'error') {
+        box.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+        box.style.border = '1px solid #ef4444';
+        box.style.color = '#ef4444';
+    } else {
+        box.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
+        box.style.border = '1px solid #10b981';
+        box.style.color = '#10b981';
+    }
+    setTimeout(() => box.classList.add('hidden'), 5000);
 }
 
 // Form Submit
-document.getElementById('orderForm').onsubmit = async (e) => {
+document.getElementById('orderForm').addEventListener('submit', async function(e) {
     e.preventDefault();
-    const btn = e.target.querySelector('button[type="submit"]'), loading = document.querySelector('.loading');
-    const data = {
-        ism: document.getElementById('ism').value, familiya: document.getElementById('familiya').value,
-        nomer: '+996 ' + document.getElementById('nomer').value, serviceKey: document.getElementById('xizmat').value,
-        serviceNameTelegram: t(`service_${document.getElementById('xizmat').value}`),
-        shifokor: document.getElementById('shifokor').value, vaqt: document.getElementById('vaqt_select').value,
-        sana: document.getElementById('sana').value, izoh: document.getElementById('izoh').value, lang: currentLang,
+
+    const ism = document.getElementById('ism').value.trim();
+    const familiya = document.getElementById('familiya').value.trim();
+    const nomer = document.getElementById('nomer').value.trim();
+    const serviceKey = document.getElementById('xizmat').value;
+    const shifokor = document.getElementById('shifokor').value;
+    const selectedTime = document.getElementById('vaqt_select').value;
+    const sana = document.getElementById('sana').value;
+    const izoh = document.getElementById('izoh').value.trim();
+
+    if (!ism || !familiya || !nomer || !serviceKey || !shifokor || !selectedTime || !sana) {
+        showNotification(t('fill_all_fields'), 'error');
+        return;
+    }
+
+    const digits = nomer.replace(/\D/g, '');
+    if (digits.length !== 9) {
+        showNotification(t('phone_9_digits'), 'error');
+        return;
+    }
+
+    const submitBtn = document.querySelector('.contact-form button[type="submit"]');
+    const loading = document.querySelector('.loading');
+    submitBtn.style.display = 'none';
+    loading.classList.remove('hidden');
+
+    const orderData = {
+        ism: ism, familiya: familiya, nomer: '+996 ' + nomer,
+        serviceKey: serviceKey, serviceNameTelegram: t(`service_${serviceKey}`),
+        shifokor: shifokor, vaqt: selectedTime, sana: sana, izoh: izoh, lang: currentLang,
         timestamp: new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Bishkek' })
     };
 
-    if(data.nomer.replace(/\D/g,'').length !== 9) return showNotification(t('phone_9_digits'), 'error');
-    
-    btn.disabled = true; loading.classList.remove('hidden');
     try {
-        const res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(data) }).then(r => r.json());
-        if (res.status === 'ok') {
-            showNotification(t('booking_success', { name: data.ism, time: data.vaqt }), 'success');
-            e.target.reset(); generateTimeSlots();
-        } else showNotification(t('booking_error'), 'error');
-    } catch { showNotification(t('booking_error'), 'error'); }
-    btn.disabled = false; loading.classList.add('hidden');
-};
+        const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(orderData) });
+        const result = await response.json();
 
-// Topbar Scroll & Menu
-window.onscroll = () => document.querySelector('.topbar').classList.toggle('scrolled', window.scrollY > 50);
-document.getElementById('menuToggle').onclick = () => document.getElementById('navLinks').classList.toggle('active');
-document.getElementById('nomer').oninput = function() {
-    this.value = this.value.replace(/\D/g,'').slice(0,9).replace(/(\d{3})(?=\d)/g, '$1 ').trim();
-};
+        if (result.status === 'ok') {
+            showNotification(t('booking_success', { name: ism, doctor: shifokor, time: selectedTime }), 'success');
+            document.getElementById('orderForm').reset();
+            document.getElementById('sana').value = new Date().toISOString().split('T')[0];
+            generateTimeSlots();
+        } else {
+            showNotification(result.message || t('booking_error'), 'error');
+        }
+    } catch (error) {
+        showNotification(t('booking_error'), 'error');
+    } finally {
+        submitBtn.style.display = 'block';
+        loading.classList.add('hidden');
+    }
+});
 
-window.onload = () => {
-    setLanguage(langSelect.value = localStorage.getItem('lang') || 'ru');
-    const sana = document.getElementById('sana');
-    sana.value = sana.min = new Date().toISOString().split('T')[0];
-    sana.onchange = generateTimeSlots;
-    generateTimeSlots(); initAnimations(); initFAQ();
-    
-    // Slider
-    const slides = document.querySelectorAll('.slide'), dotsWrap = document.getElementById('dots');
-    let active = 0;
-    slides.forEach((_, i) => {
-        const dot = document.createElement('div'); dot.className = `dot ${i===0?'active':''}`;
-        dot.onclick = () => { slides[active].classList.remove('active'); dotsWrap.children[active].classList.remove('active'); active = i; slides[active].classList.add('active'); dotsWrap.children[active].classList.add('active'); };
-        dotsWrap.appendChild(dot);
+// Phone Mask
+document.getElementById('nomer').addEventListener('input', function() {
+    let digits = this.value.replace(/\D/g, '').slice(0, 9);
+    let parts = [digits.slice(0, 3), digits.slice(3, 6), digits.slice(6, 9)].filter(Boolean);
+    this.value = parts.join(' ');
+});
+
+// Mobile Menu
+document.getElementById('menuToggle').addEventListener('click', function() {
+    document.getElementById('navLinks').classList.toggle('active');
+});
+document.querySelectorAll('.nav-main a').forEach(link => {
+    link.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('active');
     });
-    setInterval(() => dotsWrap.children[(active + 1) % slides.length].click(), 4500);
-};
-window.addEventListener('DOMContentLoaded', init);
-window.addEventListener('DOMContentLoaded', init);
+});
+
+// Init
+window.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('lang') || 'ru';
+    langSelect.value = savedLang;
+    setLanguage(savedLang);
+
+    const sanaInput = document.getElementById('sana');
+    const today = new Date().toISOString().split('T')[0];
+    sanaInput.value = today;
+    sanaInput.min = today;
+    sanaInput.addEventListener('change', generateTimeSlots);
+
+    generateTimeSlots();
+    initSlider();
+    
+    // Header Scroll Effect
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            document.querySelector('.topbar').style.background = 'var(--surface)';
+            document.querySelector('.topbar').style.boxShadow = 'var(--shadow-md)';
+        } else {
+            document.querySelector('.topbar').style.background = 'var(--surface-glass)';
+            document.querySelector('.topbar').style.boxShadow = 'none';
+        }
+    });
+});
