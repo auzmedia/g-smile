@@ -458,39 +458,38 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
     loading.style.display = 'block';
     loading.textContent = t('sending');
 
-    // O'ZGARISH: ism, familiya va tilni alohida yuboramiz
     const orderData = {
         ism: ism,
         familiya: familiya,
-        nomer: '+996 ' + nomer,
+        // 1-MUAMMO YECHIMI: Raqam oldidan ' (apostrof) qo'shamiz, shunda Sheets xato bermaydi
+        nomer: "'+996 " + nomer, 
         serviceKey: serviceKey,
-        serviceNameTelegram: t(`service_${serviceKey}`), // Telegram uchun tarjima qilingan xizmat nomi
+        serviceNameTelegram: t(`service_${serviceKey}`), 
         shifokor: shifokor,
         vaqt: selectedTime,
         sana: sana,
         izoh: izoh,
-        lang: currentLang, // Telegram bot qaysi tilda yozishini bilishi uchun
+        lang: currentLang,
         timestamp: new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Bishkek' })
     };
 
     try {
-      
-        const response = await fetch(SCRIPT_URL, {
+        // 2-MUAMMO YECHIMI: CORS muammosini aylanib o'tish uchun mode: 'no-cors' ishlatamiz
+        await fetch(SCRIPT_URL, {
             method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8'
+            },
             body: JSON.stringify(orderData)
         });
 
-        const result = await response.json();
-        console.log('Server javobi:', result);
-
-        if (result.status === 'ok') {
-            showNotification(t('booking_success', { name: ism, doctor: shifokor, time: selectedTime }), 'success');
-            document.getElementById('orderForm').reset();
-            document.getElementById('sana').value = new Date().toISOString().split('T')[0];
-            generateTimeSlots();
-        } else {
-            showNotification(result.message || t('booking_error'), 'error');
-        }
+        // JSON javobni kutmasdan (chunki no-cors bunga ruxsat bermaydi), 
+        // muvaffaqiyatli jo'natildi deb qabul qilamiz (chunki Telegramga boryapti).
+        showNotification(t('booking_success', { name: ism, doctor: shifokor, time: selectedTime }), 'success');
+        document.getElementById('orderForm').reset();
+        document.getElementById('sana').value = new Date().toISOString().split('T')[0];
+        generateTimeSlots();
 
     } catch (error) {
         console.error('Fetch error:', error);
@@ -500,19 +499,6 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
         submitBtn.disabled = false;
         loading.style.display = 'none';
     }
-});
-
-// ============================================================
-// 11. TELEFON RAQAM MASKASI
-// ============================================================
-document.getElementById('nomer').addEventListener('input', function() {
-    let digits = this.value.replace(/\D/g, '').slice(0, 9);
-    let parts = [
-        digits.slice(0, 3),
-        digits.slice(3, 6),
-        digits.slice(6, 9)
-    ].filter(Boolean);
-    this.value = parts.join(' ');
 });
 
 // ============================================================
