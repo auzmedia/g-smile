@@ -7,7 +7,7 @@ const langSelect = document.getElementById('lang-select');
 let currentLang = localStorage.getItem('lang') || 'ru';
 
 // Google Apps Script URL – оставить свой
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw_bYCP4deZddGObiRbyh46kTPKGFofCDcCIU8bOXp-2jx6M4QAcRIszBdWCuuafrVjKA/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9R2z357JS1p8pBEvfO9tMF8-C30I2_zX1AIVfip261iMDyaQDBvBdQ0NilI7rtjWe3g/exec';
 
 function t(key, params = {}) {
     const text = translations[currentLang]?.[key] || translations['ru'][key] || key;
