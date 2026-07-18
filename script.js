@@ -121,7 +121,7 @@ function updateServiceOptions(lang) {
     const timeSelect = document.getElementById('time');
     const msgDiv = document.getElementById('formMessage');
 
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzzzFHQ6UVk5t3M2BUzbyF3HD8TNETrqoV1m4woS1U0aPsXIxXG0gv7I-cxAuLYtRIS9A/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby-HzTFyEQQH4oJxIkEHcW3_YBJvOHFMEIYoRkhQcJGDfB0zUkxoba8dWKK2snj9raoAw/exec';
 
     const today = new Date();
     const tzOffset = today.getTimezoneOffset() * 60000;
