@@ -1,465 +1,617 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabassum Galereyasi — Zamonaviy Stomatologiya</title>
-    <!-- Font Awesome ikonkalari uchun -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #007bff;
-            --secondary-color: #f8f9fa;
-            --text-color: #333;
-            --light-text: #666;
-            --accent-color: #ffc107;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            color: var(--text-color);
-            background-color: #ffffff;
-            line-height: 1.6;
-        }
-
-        /* Navigatsiya */
-        header {
-            background: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 15px 20px;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--primary-color);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 20px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #555;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-color);
-        }
-
-        /* Hero bo'limi */
-        .hero {
-            background: linear-gradient(135deg, #e6f2ff 0%, #ffffff 100%);
-            padding: 80px 20px;
-            text-align: center;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-size: 42px;
-            color: #111;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: 18px;
-            color: var(--light-text);
-            margin-bottom: 30px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background-color: var(--primary-color);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
-            transition: transform 0.3s, background-color 0.3s;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            color: var(--primary-color);
-            border: 2px solid var(--primary-color);
-            margin-left: 10px;
-        }
-
-        .btn-outline:hover {
-            background-color: var(--primary-color);
-            color: #fff;
-        }
-
-        /* Umumiy Bo'limlar */
-        section {
-            padding: 70px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 32px;
-            margin-bottom: 40px;
-            position: relative;
-        }
-
-        /* Afzalliklar */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .feature-card {
-            background: var(--secondary-color);
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            transition: box-shadow 0.3s;
-        }
-
-        .feature-card:hover {
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .feature-card i {
-            font-size: 40px;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-        }
-
-        /* Narxlar (Prais) */
-        .price-list {
-            background: var(--secondary-color);
-            border-radius: 10px;
-            padding: 20px;
-        }
-
-        .price-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 10px;
-            border-bottom: 1px solid #ddd;
-            align-items: center;
-        }
-
-        .price-item:last-child {
-            border-bottom: none;
-        }
-
-        .price-details h4 {
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-
-        .price-details p {
-            font-size: 14px;
-            color: var(--light-text);
-        }
-
-        .price-amount {
-            font-weight: bold;
-            color: var(--primary-color);
-            font-size: 18px;
-        }
-
-        /* Shifokorlar */
-        .doctors {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .doctor-card {
-            border: 1px solid #eee;
-            border-radius: 10px;
-            overflow: hidden;
-            text-align: center;
-            padding: 20px;
-            background: #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .doctor-img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background-color: #ddd;
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            color: #aaa;
-        }
-
-        .doctor-card h3 {
-            margin-bottom: 5px;
-        }
-
-        .doctor-card p {
-            color: var(--light-text);
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        .rating {
-            color: var(--accent-color);
-            margin-bottom: 15px;
-        }
-
-        /* Qabulga yozilish formasi */
-        .booking-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: var(--secondary-color);
-            padding: 40px;
-            border-radius: 10px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        /* Footer */
-        footer {
-            background: #222;
-            color: #fff;
-            padding: 40px 20px;
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        .footer-socials {
-            margin: 20px 0;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .footer-socials a {
-            color: #fff;
-            font-size: 20px;
-            transition: color 0.3s;
-        }
-
-        .footer-socials a:hover {
-            color: var(--primary-color);
-        }
-
-        /* Mobil qurilmalar uchun moslashuvchanlik */
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .hero h1 {
-                font-size: 30px;
-            }
-            .price-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-        }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Галерея улыбок — Стоматология в Оше</title>
+    <meta name="description" content="Стоматологическая клиника Галерея улыбок в Оше. Прейскурант, 6 врачей, современное оборудование. Запишитесь онлайн." />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦷</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+    <!-- Управление темой и языком -->
+    <div class="controls">
+        <button id="themeToggle" aria-label="Переключить тему"><i class="fas fa-moon"></i></button>
+        <select id="langSelect">
+            <option value="ru">🇷🇺 Русский</option>
+            <option value="ky">🇰🇬 Кыргызча</option>
+            <option value="uz">🇺🇿 O'zbekcha</option>
+            <option value="en">🇬🇧 English</option>
+        </select>
+    </div>
 
-    <!-- Navigatsiya paneli -->
-    <header>
-        <nav class="navbar">
-            <a href="#" class="logo"><i class="fa-solid :has-text-grey-lighter"></i> Галерея улыбок</a>
-            <ul class="nav-links">
-                <li><a href="#about">Biz haqimizda</a></li>
-                <li><a href="#prices">Narxlar</a></li>
-                <li><a href="#doctors">Shifokorlar</a></li>
-                <li><a href="#book">Yozilish</a></li>
-            </ul>
-        </nav>
+    <!-- Шапка -->
+    <header class="header" role="banner">
+        <div class="container header__inner">
+            <a href="#" class="logo" aria-label="Галерея улыбок - Главная">
+                <i class="fas fa-tooth"></i>
+                <span data-lang="logo">Галерея <span class="logo__highlight">улыбок</span></span>
+            </a>
+            <nav class="nav" role="navigation">
+                <ul class="nav__list">
+                    <li><a href="#about" data-lang="nav_about">О нас</a></li>
+                    <li><a href="#price" data-lang="nav_price">Прайс</a></li>
+                    <li><a href="#doctors" data-lang="nav_doctors">Врачи</a></li>
+                    <li><a href="#video-carousel" data-lang="nav_reviews">Отзывы</a></li>
+                    <li><a href="#booking" data-lang="nav_booking">Запись</a></li>
+                    <li><a href="#contacts" data-lang="nav_contacts">Контакты</a></li>
+                </ul>
+            </nav>
+            <button class="burger" aria-label="Открыть меню" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
     </header>
 
-    <!-- Hero Bo'limi -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Go‘zal tabassum shu yerdan boshlanadi</h1>
-            <p>Osh markazidagi zamonaviy stomatologiya. Davolash, implantatsiya, breketlar va estetika — barchasi bir klinikada.</p>
-            <a href="#book" class="btn">Navbatga yozilish</a>
-            <a href="#prices" class="btn btn-outline">Narxlar bilan tanishish</a>
-        </div>
-    </section>
-
-    <!-- Afzalliklar bo'limi -->
-    <section id="about">
-        <h2 class="section-title">Nega aynan biz?</h2>
-        <div class="features">
-            <div class="feature-card">
-                <i class="fa-solid fa-briefcase-medical"></i>
-                <h3>15+ Xizmat turlari</h3>
-                <p>Stomatologiya xizmatlarining to‘liq spektri</p>
-            </div>
-            <div class="feature-card">
-                <i class="fa-solid fa-user-doctor"></i>
-                <h3>6 Tajribali shifokor</h3>
-                <p>Oliy ma'lumotli va o‘z ishining ustalari</p>
-            </div>
-            <div class="feature-card">
-                <i class="fa-solid fa-kit-medical"></i>
-                <h3>Zamonaviy texnologiya</h3>
-                <p>Jahon standartlariga mos diagnostika va davolash</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Narxlar bo'limi -->
-    <section id="prices">
-        <h2 class="section-title">Xizmatlar va narxlar</h2>
-        <div class="price-list">
-            <div class="price-item">
-                <div class="price-details">
-                    <h4>Konsultatsiya va diagnostika</h4>
-                    <p>Davolash rejasini tuzish bilan birga</p>
+    <!-- Герой-блок -->
+    <section class="hero" id="hero">
+        <div class="container hero__inner">
+            <div class="hero__content" data-aos="fade-right">
+                <span class="hero__badge" data-lang="hero_badge">Самая популярная стоматология Оша</span>
+                <h1 class="hero__title" data-lang="hero_title">Красивая улыбка <br />начинается <span class="highlight">здесь</span></h1>
+                <p class="hero__subtitle" data-lang="hero_subtitle">Современная стоматология в центре Оша. Лечение, имплантация, брекеты и эстетика — всё в одной клинике.</p>
+                <ul class="hero__features">
+                    <li><i class="fas fa-check-circle"></i> <span data-lang="feature1">15 видов услуг</span></li>
+                    <li><i class="fas fa-check-circle"></i> <span data-lang="feature2">6 опытных врачей</span></li>
+                    <li><i class="fas fa-check-circle"></i> <span data-lang="feature3">Современное оборудование</span></li>
+                    <li><i class="fas fa-check-circle"></i> <span data-lang="feature4">Средние цены</span></li>
+                    <li><i class="fas fa-check-circle"></i> <span data-lang="feature5">5000+ довольных пациентов</span></li>
+                </ul>
+                <div class="hero__actions">
+                    <a href="#booking" class="btn btn--primary" data-lang="btn_book">Записаться</a>
+                    <a href="#price" class="btn btn--outline" data-lang="btn_price">Прейскурант</a>
                 </div>
-                <div class="price-amount">500 som</div>
             </div>
-            <div class="price-item">
-                <div class="price-details">
-                    <h4>Tish kariesini davolash</h4>
-                    <p>Sifatli plomba qo‘yish va tishni tiklash</p>
+            <div class="hero__image" data-aos="fade-left">
+                <div class="hero__image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=600&h=600&fit=crop&crop=face&auto=format" alt="Счастливый пациент" loading="lazy" />
+                    <div class="hero__glass-card glass">
+                        <span><i class="fas fa-star" style="color:#eab308;"></i> 4.9</span>
+                        <span>5000+ <span data-lang="reviews">отзывов</span></span>
+                    </div>
                 </div>
-                <div class="price-amount">2000 - 3500 som</div>
-            </div>
-            <div class="price-item">
-                <div class="price-details">
-                    <h4>Metallokeramika qoplama (Koronka)</h4>
-                    <p>1 dona tish uchun mustahkam qoplama</p>
-                </div>
-                <div class="price-amount">5000 som</div>
-            </div>
-            <div class="price-item">
-                <div class="price-details">
-                    <h4>Tishni og‘riqsiz olish</h4>
-                    <p>Zamonaviy anesteziya ostida xavfsiz olib tashlash</p>
-                </div>
-                <div class="price-amount">1000 - 5000 som</div>
+                <div class="hero__deco deco-1"></div>
+                <div class="hero__deco deco-2"></div>
+                <div class="hero__deco deco-3"></div>
             </div>
         </div>
     </section>
 
-    <!-- Shifokorlar bo'limi -->
-    <section id="doctors">
-        <h2 class="section-title">Bizning mutaxassislar</h2>
-        <div class="doctors">
-            <div class="doctor-card">
-                <div class="doctor-img"><i class="fa-solid fa-user-md"></i></div>
-                <h3>Aziz Abdiyev</h3>
-                <p>Bosh shifokor, xirurg-implantolog</p>
-                <div class="rating"><i class="fa-solid fa-star"></i> 4.9 (15 yillik tajriba)</div>
-                <a href="#book" class="btn" style="padding: 8px 20px; font-size: 14px;">Yozilish</a>
-            </div>
-            <div class="doctor-card">
-                <div class="doctor-img"><i class="fa-solid fa-user-md"></i></div>
-                <h3>Aynura Abdildayeva</h3>
-                <p>Shifokor-terapevt, endodontist</p>
-                <div class="rating"><i class="fa-solid fa-star"></i> 4.8 (12 yillik tajriba)</div>
-                <a href="#book" class="btn" style="padding: 8px 20px; font-size: 14px;">Yozilish</a>
-            </div>
-            <div class="doctor-card">
-                <div class="doctor-img"><i class="fa-solid fa-user-md"></i></div>
-                <h3>Bekbolot Mamatov</h3>
-                <p>Ortodont (breketlar)</p>
-                <div class="rating"><i class="fa-solid fa-star"></i> 4.7 (10 yillik tajriba)</div>
-                <a href="#book" class="btn" style="padding: 8px 20px; font-size: 14px;">Yozilish</a>
+    <!-- Преимущества -->
+    <section class="advantages" id="advantages">
+        <div class="container">
+            <div class="section-label" data-aos="fade-up" data-lang="why_us">Почему мы</div>
+            <h2 class="section-title" data-aos="fade-up" data-lang="popular_title">Самая популярная клиника города</h2>
+            <div class="advantages__grid">
+                <div class="advantage-card" data-aos="zoom-in" data-aos-delay="0">
+                    <div class="advantage-card__img"><img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=300&h=300&fit=crop" alt="15 услуг" loading="lazy" /></div>
+                    <h3 data-lang="adv_1_title">15 услуг</h3>
+                    <p data-lang="adv_1_desc">Полный спектр стоматологических услуг</p>
+                </div>
+                <div class="advantage-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="advantage-card__img"><img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=300&h=300&fit=crop" alt="Средние цены" loading="lazy" /></div>
+                    <h3 data-lang="adv_2_title">Средние цены</h3>
+                    <p data-lang="adv_2_desc">Доступная стоимость без потери качества</p>
+                </div>
+                <div class="advantage-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="advantage-card__img"><img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=300&h=300&fit=crop" alt="6 врачей" loading="lazy" /></div>
+                    <h3 data-lang="adv_3_title">6 врачей</h3>
+                    <p data-lang="adv_3_desc">Опытные специалисты с высшим образованием</p>
+                </div>
+                <div class="advantage-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="advantage-card__img"><img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=300&h=300&fit=crop" alt="Современное оборудование" loading="lazy" /></div>
+                    <h3 data-lang="adv_4_title">Современное оборудование</h3>
+                    <p data-lang="adv_4_desc">Диагностика и лечение на мировом уровне</p>
+                </div>
+                <div class="advantage-card" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="advantage-card__img"><img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=300&h=300&fit=crop" alt="Безболезненное лечение" loading="lazy" /></div>
+                    <h3 data-lang="adv_5_title">Безболезненное лечение</h3>
+                    <p data-lang="adv_5_desc">Современная анестезия и комфорт</p>
+                </div>
+                <div class="advantage-card" data-aos="zoom-in" data-aos-delay="500">
+                    <div class="advantage-card__img"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=300&h=300&fit=crop" alt="Высокий рейтинг" loading="lazy" /></div>
+                    <h3 data-lang="adv_6_title">Высокий рейтинг</h3>
+                    <p data-lang="adv_6_desc">4.9 на основе 5000+ отзывов</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Yozilish Formasi -->
-    <section id="book">
-        <h2 class="section-title">Qabulga onlayn yozilish</h2>
-        <form class="booking-form" onsubmit="alert('Arizangiz qabul qilindi!'); return false;">
-            <div class="form-group">
-                <label for="name">Ismingiz va Familiyangiz</label>
-                <input type="text" id="name" class="form-control" placeholder="Masalan: Ali Valiyev" required>
+    <!-- О клинике -->
+    <section class="about" id="about">
+        <div class="container about__inner">
+            <div class="about__content" data-aos="fade-right">
+                <span class="section-label" data-lang="about_label">О клинике</span>
+                <h2 class="section-title" data-lang="about_title">Почему выбирают <span class="highlight">Галерею улыбок</span></h2>
+                <p data-lang="about_text1">«Галерея улыбок» — это современная стоматологическая клиника в самом центре Оша. Мы предлагаем полный спектр услуг: от профессиональной чистки до сложной имплантации и ортодонтии.</p>
+                <p data-lang="about_text2">Наши врачи — специалисты с многолетним опытом, регулярно повышающие квалификацию в ведущих клиниках Европы и Азии. Мы используем только проверенные материалы и оборудование последнего поколения.</p>
+                <p data-lang="about_text3">Главный принцип — индивидуальный подход к каждому пациенту и максимальный комфорт во время лечения.</p>
+                <div class="about__stats">
+                    <div class="stat">
+                        <span class="stat__number" data-count="15">0</span><span class="stat__plus">+</span>
+                        <span class="stat__label" data-lang="stat_services">Услуг</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat__number" data-count="6">0</span>
+                        <span class="stat__label" data-lang="stat_doctors">Врачей</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat__number" data-count="5000">0</span><span class="stat__plus">+</span>
+                        <span class="stat__label" data-lang="stat_patients">Пациентов</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat__number">4.9</span><span class="stat__star"><i class="fas fa-star" style="font-size:1.4rem;color:#eab308;"></i></span>
+                        <span class="stat__label" data-lang="stat_rating">Средняя оценка</span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="phone">Telefon raqamingiz</label>
-                <input type="tel" id="phone" class="form-control" placeholder="+996 550 123 456" required>
+            <div class="about__image" data-aos="fade-left">
+                <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&h=450&fit=crop&auto=format" alt="Клиника" loading="lazy" />
+                <div class="about__experience glass">
+                    <span><i class="fas fa-trophy" style="color:#0F6CBD;font-size:1.8rem;"></i></span>
+                    <div>
+                        <strong data-lang="exp_years">10+ лет</strong>
+                        <small data-lang="exp_market">на рынке Кыргызстана</small>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="doctor">Shifokorni tanlang</label>
-                <select id="doctor" class="form-control">
-                    <option>Aziz Abdiyev — Xirurg-implantolog</option>
-                    <option>Aynura Abdildayeva — Terapevt</option>
-                    <option>Bekbolot Mamatov — Ortodont</option>
-                </select>
-            </div>
-            <button type="submit" class="btn" style="width: 100%;">Sorov yuborish</button>
-        </form>
+        </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 Галерея улыбок. Barcha huquqlar himoyalangan.</p>
-        <p>Osh shahri, Lenina ko‘chasi, 123 | Tel: +996 550 123 456</p>
-        <div class="footer-socials">
-            <a href="#"><i class="fa-brands fa-instagram"></i></a>
-            <a href="#"><i class="fa-brands fa-telegram"></i></a>
-            <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+    <!-- Полный прейскурант -->
+    <section class="price-list" id="price">
+        <div class="container">
+            <div class="section-label" data-aos="fade-up" data-lang="prices_label">Цены</div>
+            <h2 class="section-title" data-aos="fade-up" data-lang="prices_title">Прейскурант <span class="highlight">цен</span></h2>
+
+            <!-- Категория: Консультация и диагностика -->
+            <div class="price-category" data-aos="fade-up">
+                <div class="price-category__header">
+                    <span class="price-category__icon"><i class="fas fa-stethoscope"></i></span>
+                    <span class="price-category__title" data-lang="cat_diagnostic">Консультация и диагностика</span>
+                </div>
+                <div class="price-list__grid">
+                    <div class="price-item" data-aos="fade-up" data-aos-delay="0">
+                        <span class="price-item__name" data-lang="price_consult">Консультация с составлением плана лечения</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">500 сом</span>
+                            <button class="btn btn--select" data-service="Консультация с составлением плана лечения" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item" data-aos="fade-up" data-aos-delay="50">
+                        <span class="price-item__name" data-lang="price_xray">Рентген 1 зуба</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">200 сом</span>
+                            <button class="btn btn--select" data-service="Рентген 1 зуба" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Категория: Гигиена и профилактика -->
+            <div class="price-category" data-aos="fade-up" data-aos-delay="100">
+                <div class="price-category__header">
+                    <span class="price-category__icon"><i class="fas fa-spa"></i></span>
+                    <span class="price-category__title" data-lang="cat_hygiene">Гигиена и профилактика</span>
+                </div>
+                <div class="price-list__grid">
+                    <div class="price-item" data-aos="fade-up" data-aos-delay="0">
+                        <span class="price-item__name" data-lang="price_hygiene_noair">Профессиональная гигиена (без Air Flow)</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">3000 сом</span>
+                            <button class="btn btn--select" data-service="Профессиональная гигиена (без Air Flow)" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item" data-aos="fade-up" data-aos-delay="50">
+                        <span class="price-item__name" data-lang="price_hygiene_air">Профессиональная гигиена (с Air Flow)</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">4000 сом</span>
+                            <button class="btn btn--select" data-service="Профессиональная гигиена (с Air Flow)" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Категория: Лечение кариеса -->
+            <div class="price-category" data-aos="fade-up" data-aos-delay="200">
+                <div class="price-category__header">
+                    <span class="price-category__icon"><i class="fas fa-tooth"></i></span>
+                    <span class="price-category__title" data-lang="cat_caries">Лечение кариеса и реставрация</span>
+                </div>
+                <div class="price-list__grid">
+                    <div class="price-item" data-aos="fade-up" data-aos-delay="0">
+                        <span class="price-item__name" data-lang="price_caries">Лечение кариеса зуба</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">2000–3500 сом</span>
+                            <button class="btn btn--select" data-service="Лечение кариеса зуба" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item" data-aos="fade-up" data-aos-delay="50">
+                        <span class="price-item__name" data-lang="price_restoration">Художественная реставрация зуба</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">2500–4000 сом</span>
+                            <button class="btn btn--select" data-service="Художественная реставрация зуба" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Категория: Лечение корневых каналов -->
+            <div class="price-category" data-aos="fade-up" data-aos-delay="300">
+                <div class="price-category__header">
+                    <span class="price-category__icon"><i class="fas fa-bolt"></i></span>
+                    <span class="price-category__title" data-lang="cat_endodontics">Лечение корневых каналов</span>
+                </div>
+                <div class="price-list__grid">
+                    <div class="price-item" data-aos="fade-up" data-aos-delay="0">
+                        <span class="price-item__name" data-lang="price_end_1">Лечение 1 корневого канала</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">1000 сом</span>
+                            <button class="btn btn--select" data-service="Лечение 1 корневого канала" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item" data-aos="fade-up" data-aos-delay="50">
+                        <span class="price-item__name" data-lang="price_end_2">Лечение 2 корневого канала</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">1500 сом</span>
+                            <button class="btn btn--select" data-service="Лечение 2 корневого канала" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item" data-aos="fade-up" data-aos-delay="100">
+                        <span class="price-item__name" data-lang="price_end_3">Лечение 3 корневого канала</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">2000 сом</span>
+                            <button class="btn btn--select" data-service="Лечение 3 корневого канала" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item" data-aos="fade-up" data-aos-delay="150">
+                        <span class="price-item__name" data-lang="price_end_add">Лечение дополнительного канала</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">700 сом</span>
+                            <button class="btn btn--select" data-service="Лечение дополнительного канала" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item" data-aos="fade-up" data-aos-delay="200">
+                        <span class="price-item__name" data-lang="price_end_tool">Извлечение обломка инструмента из канала</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">3000 сом</span>
+                            <button class="btn btn--select" data-service="Извлечение обломка инструмента из канала" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item" data-aos="fade-up" data-aos-delay="250">
+                        <span class="price-item__name" data-lang="price_end_post">Установка стекловолоконного (анкерный, титановый) штифта</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">500 сом</span>
+                            <button class="btn btn--select" data-service="Установка стекловолоконного штифта" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Категория: Протезирование -->
+            <div class="price-category" data-aos="fade-up" data-aos-delay="400">
+                <div class="price-category__header">
+                    <span class="price-category__icon"><i class="fas fa-crown"></i></span>
+                    <span class="price-category__title" data-lang="cat_prosthetics">Протезирование</span>
+                </div>
+                <div class="price-list__grid">
+                    <div class="price-item" data-aos="fade-up" data-aos-delay="0">
+                        <span class="price-item__name" data-lang="price_prost_temp">Временная коронка (1 шт.)</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">1000 сом</span>
+                            <button class="btn btn--select" data-service="Временная коронка (1 шт.)" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item" data-aos="fade-up" data-aos-delay="50">
+                        <span class="price-item__name" data-lang="price_prost_emax">Керамическая коронка (E-max, 1 шт.)</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">13000 сом</span>
+                            <button class="btn btn--select" data-service="Керамическая коронка (E-max)" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item" data-aos="fade-up" data-aos-delay="100">
+                        <span class="price-item__name" data-lang="price_prost_metal">Металлокерамическая коронка (1 шт.)</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">5000 сом</span>
+                            <button class="btn btn--select" data-service="Металлокерамическая коронка" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item" data-aos="fade-up" data-aos-delay="150">
+                        <span class="price-item__name" data-lang="price_prost_metal_implant">Металлокерамическая коронка на имплантате (1 шт.)</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">9000 сом</span>
+                            <button class="btn btn--select" data-service="Металлокерамическая коронка на имплантате" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item" data-aos="fade-up" data-aos-delay="200">
+                        <span class="price-item__name" data-lang="price_prost_zircon">Цирконовая коронка (1 шт.)</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">11000 сом</span>
+                            <button class="btn btn--select" data-service="Цирконовая коронка" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item" data-aos="fade-up" data-aos-delay="250">
+                        <span class="price-item__name" data-lang="price_prost_denture">Полный съемный протез (1 челюсть)</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">15000 сом</span>
+                            <button class="btn btn--select" data-service="Полный съемный протез" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item" data-aos="fade-up" data-aos-delay="300">
+                        <span class="price-item__name" data-lang="price_prost_zircon_implant">Цирконовая коронка на имплантате (1 шт.)</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">14000 сом</span>
+                            <button class="btn btn--select" data-service="Цирконовая коронка на имплантате" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Категория: Хирургия -->
+            <div class="price-category" data-aos="fade-up" data-aos-delay="500">
+                <div class="price-category__header">
+                    <span class="price-category__icon"><i class="fas fa-scalpel"></i></span>
+                    <span class="price-category__title" data-lang="cat_surgery">Хирургия</span>
+                </div>
+                <div class="price-list__grid">
+                    <div class="price-item" data-aos="fade-up" data-aos-delay="0">
+                        <span class="price-item__name" data-lang="price_surgery_extract">Удаление зуба</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">1000–5000 сом</span>
+                            <button class="btn btn--select" data-service="Удаление зуба" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Врачи -->
+    <section class="doctors" id="doctors">
+        <div class="container">
+            <span class="section-label" data-aos="fade-up" data-lang="doctors_label">Врачи</span>
+            <h2 class="section-title" data-aos="fade-up" data-lang="doctors_title">Опытные <span class="highlight">специалисты</span></h2>
+            <div class="doctors__grid">
+                <div class="doctor-card" data-aos="flip-left" data-aos-delay="0">
+                    <div class="doctor-card__img"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Доктор Азиз Абдиев" loading="lazy" /></div>
+                    <h3>Азиз Абдиев</h3>
+                    <p class="doctor-card__spec" data-lang="doc1_spec">Главный врач, хирург-имплантолог</p>
+                    <p class="doctor-card__exp" data-lang="doc1_exp">15 лет опыта</p>
+                    <div class="doctor-card__rating"><i class="fas fa-star" style="color:#eab308;"></i> 4.9</div>
+                    <a href="#booking" class="btn btn--small btn--primary" data-lang="btn_book">Записаться</a>
+                </div>
+                <div class="doctor-card" data-aos="flip-left" data-aos-delay="100">
+                    <div class="doctor-card__img"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Доктор Айнура Абдылдаева" loading="lazy" /></div>
+                    <h3>Айнура Абдылдаева</h3>
+                    <p class="doctor-card__spec" data-lang="doc2_spec">Врач-терапевт, эндодонтист</p>
+                    <p class="doctor-card__exp" data-lang="doc2_exp">12 лет опыта</p>
+                    <div class="doctor-card__rating"><i class="fas fa-star" style="color:#eab308;"></i> 4.8</div>
+                    <a href="#booking" class="btn btn--small btn--primary" data-lang="btn_book">Записаться</a>
+                </div>
+                <div class="doctor-card" data-aos="flip-left" data-aos-delay="200">
+                    <div class="doctor-card__img"><img src="https://randomuser.me/api/portraits/men/52.jpg" alt="Доктор Бекболот Маматов" loading="lazy" /></div>
+                    <h3>Бекболот Маматов</h3>
+                    <p class="doctor-card__spec" data-lang="doc3_spec">Ортодонт (брекеты, элайнеры)</p>
+                    <p class="doctor-card__exp" data-lang="doc3_exp">10 лет опыта</p>
+                    <div class="doctor-card__rating"><i class="fas fa-star" style="color:#eab308;"></i> 4.7</div>
+                    <a href="#booking" class="btn btn--small btn--primary" data-lang="btn_book">Записаться</a>
+                </div>
+                <div class="doctor-card" data-aos="flip-left" data-aos-delay="300">
+                    <div class="doctor-card__img"><img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Доктор Гульмира Кыдырова" loading="lazy" /></div>
+                    <h3>Гульмира Кыдырова</h3>
+                    <p class="doctor-card__spec" data-lang="doc4_spec">Детский стоматолог</p>
+                    <p class="doctor-card__exp" data-lang="doc4_exp">8 лет опыта</p>
+                    <div class="doctor-card__rating"><i class="fas fa-star" style="color:#eab308;"></i> 4.9</div>
+                    <a href="#booking" class="btn btn--small btn--primary" data-lang="btn_book">Записаться</a>
+                </div>
+                <div class="doctor-card" data-aos="flip-left" data-aos-delay="400">
+                    <div class="doctor-card__img"><img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Доктор Жениш Осмонов" loading="lazy" /></div>
+                    <h3>Жениш Осмонов</h3>
+                    <p class="doctor-card__spec" data-lang="doc5_spec">Ортопед, протезист</p>
+                    <p class="doctor-card__exp" data-lang="doc5_exp">14 лет опыта</p>
+                    <div class="doctor-card__rating"><i class="fas fa-star" style="color:#eab308;"></i> 4.8</div>
+                    <a href="#booking" class="btn btn--small btn--primary" data-lang="btn_book">Записаться</a>
+                </div>
+                <div class="doctor-card" data-aos="flip-left" data-aos-delay="500">
+                    <div class="doctor-card__img"><img src="https://randomuser.me/api/portraits/women/22.jpg" alt="Доктор Чолпон Садыкова" loading="lazy" /></div>
+                    <h3>Чолпон Садыкова</h3>
+                    <p class="doctor-card__spec" data-lang="doc6_spec">Пародонтолог, гигиенист</p>
+                    <p class="doctor-card__exp" data-lang="doc6_exp">9 лет опыта</p>
+                    <div class="doctor-card__rating"><i class="fas fa-star" style="color:#eab308;"></i> 4.7</div>
+                    <a href="#booking" class="btn btn--small btn--primary" data-lang="btn_book">Записаться</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Видеоотзывы -->
+    <section class="video-carousel" id="video-carousel">
+        <div class="container">
+            <span class="section-label" data-aos="fade-up" data-lang="video_label">Видеоотзывы</span>
+            <h2 class="section-title" data-aos="fade-up" data-lang="video_title">Довольные <span class="highlight">пациенты</span></h2>
+            <div class="swiper videoSwiper" data-aos="fade-up">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0" allowfullscreen loading="lazy"></iframe></div>
+                    <div class="swiper-slide"><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0" allowfullscreen loading="lazy"></iframe></div>
+                    <div class="swiper-slide"><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0" allowfullscreen loading="lazy"></iframe></div>
+                    <div class="swiper-slide"><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0" allowfullscreen loading="lazy"></iframe></div>
+                    <div class="swiper-slide"><iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0" allowfullscreen loading="lazy"></iframe></div>
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Форма записи -->
+    <section class="booking" id="booking">
+        <div class="container booking__inner">
+            <div class="booking__content" data-aos="fade-right">
+                <span class="section-label" data-lang="booking_label">Запись</span>
+                <h2 class="section-title" data-lang="booking_title">Запись <span class="highlight">на приём</span></h2>
+                <p data-lang="booking_desc">Заполните форму, и мы свяжемся с вами в ближайшее время для подтверждения записи.</p>
+                <div class="booking__info">
+                    <div><i class="fas fa-phone"></i> +996 550 123 456</div>
+                    <div><i class="fab fa-whatsapp"></i> +996 550 123 456</div>
+                    <div><i class="fab fa-telegram"></i> @galleryulybok</div>
+                </div>
+            </div>
+            <div class="booking__form" data-aos="fade-left">
+                <form id="bookingForm" novalidate>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="lastName" data-lang="label_lastname">Фамилия <span class="required">*</span></label>
+                            <input type="text" id="lastName" name="lastName" required placeholder="Введите фамилию" />
+                        </div>
+                        <div class="form-group">
+                            <label for="firstName" data-lang="label_firstname">Имя <span class="required">*</span></label>
+                            <input type="text" id="firstName" name="firstName" required placeholder="Введите имя" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone" data-lang="label_phone">Телефон <span class="required">*</span></label>
+                        <div class="phone-wrapper">
+                            <span class="phone-prefix">+996</span>
+                            <input type="tel" id="phone" name="phone" required placeholder="550 123 456" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="doctor" data-lang="label_doctor">Врач <span class="required">*</span></label>
+                            <select id="doctor" name="doctor" required>
+                                <option value="" data-lang="select_doctor">Выберите врача</option>
+                                <option value="Азиз Абдиев">Азиз Абдиев — Хирург-имплантолог</option>
+                                <option value="Айнура Абдылдаева">Айнура Абдылдаева — Терапевт</option>
+                                <option value="Бекболот Маматов">Бекболот Маматов — Ортодонт</option>
+                                <option value="Гульмира Кыдырова">Гульмира Кыдырова — Детский стоматолог</option>
+                                <option value="Жениш Осмонов">Жениш Осмонов — Ортопед</option>
+                                <option value="Чолпон Садыкова">Чолпон Садыкова — Пародонтолог</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="service" data-lang="label_service">Услуга <span class="required">*</span></label>
+                            <select id="service" name="service" required>
+                                <option value="" data-lang="select_service">Выберите услугу</option>
+                                <option value="Консультация с составлением плана лечения">Консультация с составлением плана лечения</option>
+                                <option value="Рентген 1 зуба">Рентген 1 зуба</option>
+                                <option value="Профессиональная гигиена (без Air Flow)">Профессиональная гигиена (без Air Flow)</option>
+                                <option value="Профессиональная гигиена (с Air Flow)">Профессиональная гигиена (с Air Flow)</option>
+                                <option value="Лечение кариеса зуба">Лечение кариеса зуба</option>
+                                <option value="Художественная реставрация зуба">Художественная реставрация зуба</option>
+                                <option value="Лечение 1 корневого канала">Лечение 1 корневого канала</option>
+                                <option value="Лечение 2 корневого канала">Лечение 2 корневого канала</option>
+                                <option value="Лечение 3 корневого канала">Лечение 3 корневого канала</option>
+                                <option value="Лечение дополнительного канала">Лечение дополнительного канала</option>
+                                <option value="Извлечение обломка инструмента из канала">Извлечение обломка инструмента из канала</option>
+                                <option value="Установка стекловолоконного штифта">Установка стекловолоконного штифта</option>
+                                <option value="Временная коронка (1 шт.)">Временная коронка (1 шт.)</option>
+                                <option value="Керамическая коронка (E-max)">Керамическая коронка (E-max)</option>
+                                <option value="Металлокерамическая коронка">Металлокерамическая коронка</option>
+                                <option value="Металлокерамическая коронка на имплантате">Металлокерамическая коронка на имплантате</option>
+                                <option value="Цирконовая коронка">Цирконовая коронка</option>
+                                <option value="Полный съемный протез">Полный съемный протез</option>
+                                <option value="Цирконовая коронка на имплантате">Цирконовая коронка на имплантате</option>
+                                <option value="Удаление зуба">Удаление зуба</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="date" data-lang="label_date">Дата <span class="required">*</span></label>
+                            <input type="date" id="date" name="date" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="time" data-lang="label_time">Время <span class="required">*</span></label>
+                            <select id="time" name="time" required>
+                                <option value="" data-lang="select_time">Выберите время</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment" data-lang="label_comment">Комментарий</label>
+                        <textarea id="comment" name="comment" rows="3" placeholder="Дополнительные пожелания..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full" data-lang="btn_book">Записаться</button>
+                    <div id="formMessage" class="form-message"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Контакты -->
+    <section class="contacts" id="contacts">
+        <div class="container contacts__inner">
+            <div class="contacts__info" data-aos="fade-right">
+                <span class="section-label" data-lang="contacts_label">Контакты</span>
+                <h2 class="section-title" data-lang="contacts_title">Свяжитесь <span class="highlight">с нами</span></h2>
+                <div class="contacts__list">
+                    <div><i class="fas fa-map-pin"></i> <span data-lang="address">г. Ош, ул. Ленина 123</span></div>
+                    <div><i class="fas fa-phone"></i> <a href="tel:+996550123456">+996 550 123 456</a></div>
+                    <div><i class="fab fa-whatsapp"></i> <a href="https://wa.me/996550123456" target="_blank">WhatsApp</a></div>
+                    <div><i class="fab fa-telegram"></i> <a href="https://t.me/galleryulybok" target="_blank">@galleryulybok</a></div>
+                    <div><i class="fas fa-envelope"></i> <a href="mailto:info@galleryulybok.kg">info@galleryulybok.kg</a></div>
+                </div>
+                <div class="contacts__social">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div class="contacts__map" data-aos="fade-left">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3002.201866105714!2d72.795619!3d40.534164!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38bdaf5763a193e9%3A0x2c93c9b9e8e5f6a9!2z0J7RiA!5e0!3m2!1sru!2skg!4v1700000000000" width="100%" height="100%" style="border:0; border-radius:24px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Карта"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer" role="contentinfo">
+        <div class="container footer__inner">
+            <div class="footer__brand">
+                <a href="#" class="logo"><i class="fas fa-tooth"></i> <span data-lang="logo">Галерея <span class="logo__highlight">улыбок</span></span></a>
+                <p data-lang="slogan">Красивая улыбка начинается здесь</p>
+            </div>
+            <nav class="footer__nav" aria-label="Меню подвала">
+                <ul>
+                    <li><a href="#about" data-lang="nav_about">О нас</a></li>
+                    <li><a href="#price" data-lang="nav_price">Прайс</a></li>
+                    <li><a href="#doctors" data-lang="nav_doctors">Врачи</a></li>
+                    <li><a href="#video-carousel" data-lang="nav_reviews">Отзывы</a></li>
+                    <li><a href="#booking" data-lang="nav_booking">Запись</a></li>
+                </ul>
+            </nav>
+            <div class="footer__contacts">
+                <a href="tel:+996550123456"><i class="fas fa-phone"></i> +996 550 123 456</a>
+                <a href="mailto:info@galleryulybok.kg"><i class="fas fa-envelope"></i> info@galleryulybok.kg</a>
+                <div class="footer__social-block">
+                    <span data-lang="social_label">НАШИ СОЦ СЕТИ</span>
+                    <div class="footer__social">
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <div class="container">
+                <p>&copy; 2026 <span data-lang="footer_copyright">Галерея улыбок. Все права защищены.</span></p>
+                <p data-lang="footer_city">г. Ош, Кыргызстан</p>
+            </div>
         </div>
     </footer>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="lang.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
