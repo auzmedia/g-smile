@@ -1,4 +1,4 @@
-export const translations = {
+const translations = {
     uz: {
         main: "Asosiy", services: "Xizmatlar", prices: "Narxlar", doctors: "Shifokorlar", certificates: "Sertifikatlar",
         hero_badge: "Premium raqamli stomatologiya",
