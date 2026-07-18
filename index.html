@@ -160,16 +160,17 @@
         </div>
     </section>
 
-    <!-- Полный прейскурант -->
+    <!-- ===== НОВЫЙ ПРЕЙСКУРАНТ ===== -->
     <section class="price-list" id="price">
         <div class="container">
             <div class="section-label" data-aos="fade-up" data-lang="prices_label">Цены</div>
             <h2 class="section-title" data-aos="fade-up" data-lang="prices_title">Прейскурант <span class="highlight">цен</span></h2>
 
+            <!-- 1. Консультация -->
             <div class="price-category" data-aos="fade-up">
                 <div class="price-category__header">
                     <span class="price-category__icon"><i class="fas fa-stethoscope"></i></span>
-                    <span class="price-category__title" data-lang="cat_diagnostic">Консультация и диагностика</span>
+                    <span class="price-category__title" data-lang="cat_consult">Консультация и диагностика</span>
                 </div>
                 <div class="price-list__grid">
                     <div class="price-item">
@@ -189,76 +190,184 @@
                 </div>
             </div>
 
-            <div class="price-category" data-aos="fade-up" data-aos-delay="100">
-                <div class="price-category__header">
-                    <span class="price-category__icon"><i class="fas fa-tooth"></i></span>
-                    <span class="price-category__title" data-lang="cat_therapy">Терапия</span>
-                </div>
-                <div class="price-list__grid">
-                    <div class="price-item">
-                        <span class="price-item__name" data-lang="price_caries">Лечение кариеса (пломба световой полимеризации)</span>
-                        <div class="price-item__actions">
-                            <span class="price-item__value">от 1500 сом</span>
-                            <button class="btn btn--select" data-service="service_caries" data-lang="select">Выбрать</button>
-                        </div>
-                    </div>
-                    <div class="price-item">
-                        <span class="price-item__name" data-lang="price_pulpitis">Лечение пульпита (1 канал)</span>
-                        <div class="price-item__actions">
-                            <span class="price-item__value">2500 сом</span>
-                            <button class="btn btn--select" data-service="service_pulpitis" data-lang="select">Выбрать</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="price-category" data-aos="fade-up" data-aos-delay="200">
-                <div class="price-category__header">
-                    <span class="price-category__icon"><i class="fas fa-tools"></i></span>
-                    <span class="price-category__title" data-lang="cat_surgery">Хирургия и Имплантация</span>
-                </div>
-                <div class="price-list__grid">
-                    <div class="price-item">
-                        <span class="price-item__name" data-lang="price_extract">Удаление зуба простое</span>
-                        <div class="price-item__actions">
-                            <span class="price-item__value">1000 сом</span>
-                            <button class="btn btn--select" data-service="service_extract" data-lang="select">Выбрать</button>
-                        </div>
-                    </div>
-                    <div class="price-item">
-                        <span class="price-item__name" data-lang="price_implant">Установка имплантата (Корея)</span>
-                        <div class="price-item__actions">
-                            <span class="price-item__value">от 15000 сом</span>
-                            <button class="btn btn--select" data-service="service_implant" data-lang="select">Выбрать</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="price-category" data-aos="fade-up" data-aos-delay="300">
+            <!-- 2. Гигиена -->
+            <div class="price-category" data-aos="fade-up">
                 <div class="price-category__header">
                     <span class="price-category__icon"><i class="fas fa-spa"></i></span>
                     <span class="price-category__title" data-lang="cat_hygiene">Гигиена и профилактика</span>
                 </div>
                 <div class="price-list__grid">
                     <div class="price-item">
-                        <span class="price-item__name" data-lang="price_hygiene">Профессиональная гигиена (Air Flow + Ультразвук)</span>
+                        <span class="price-item__name" data-lang="price_hygiene_basic">Профессиональная гигиена полости рта (без Air Flow)</span>
                         <div class="price-item__actions">
                             <span class="price-item__value">3000 сом</span>
-                            <button class="btn btn--select" data-service="service_hygiene" data-lang="select">Выбрать</button>
+                            <button class="btn btn--select" data-service="service_hygiene_basic" data-lang="select">Выбрать</button>
                         </div>
                     </div>
                     <div class="price-item">
-                        <span class="price-item__name" data-lang="price_whitening">Отбеливание зубов (Zoom 4)</span>
+                        <span class="price-item__name" data-lang="price_hygiene_airflow">Профессиональная гигиена полости рта (с Air Flow)</span>
                         <div class="price-item__actions">
-                            <span class="price-item__value">12000 сом</span>
-                            <button class="btn btn--select" data-service="service_whitening" data-lang="select">Выбрать</button>
+                            <span class="price-item__value">4000 сом</span>
+                            <button class="btn btn--select" data-service="service_hygiene_airflow" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Хирургия -->
+            <div class="price-category" data-aos="fade-up">
+                <div class="price-category__header">
+                    <span class="price-category__icon"><i class="fas fa-tools"></i></span>
+                    <span class="price-category__title" data-lang="cat_surgery">Хирургия</span>
+                </div>
+                <div class="price-list__grid">
+                    <div class="price-item">
+                        <span class="price-item__name" data-lang="price_extraction">Удаление зуба</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">1000–5000 сом</span>
+                            <button class="btn btn--select" data-service="service_extraction" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Терапия (кариес, реставрация) -->
+            <div class="price-category" data-aos="fade-up">
+                <div class="price-category__header">
+                    <span class="price-category__icon"><i class="fas fa-tooth"></i></span>
+                    <span class="price-category__title" data-lang="cat_therapy">Терапия</span>
+                </div>
+                <div class="price-list__grid">
+                    <div class="price-item">
+                        <span class="price-item__name" data-lang="price_filling">Пломба (лечение кариеса)</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">2000–3500 сом</span>
+                            <button class="btn btn--select" data-service="service_filling" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item">
+                        <span class="price-item__name" data-lang="price_restoration">Художественная реставрация зуба</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">2500–4000 сом</span>
+                            <button class="btn btn--select" data-service="service_restoration" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Эндодонтия -->
+            <div class="price-category" data-aos="fade-up">
+                <div class="price-category__header">
+                    <span class="price-category__icon"><i class="fas fa-search"></i></span>
+                    <span class="price-category__title" data-lang="cat_endo">Эндодонтия (лечение каналов)</span>
+                </div>
+                <div class="price-list__grid">
+                    <div class="price-item">
+                        <span class="price-item__name" data-lang="price_1canal">Лечение 1 корневого канала</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">1000 сом</span>
+                            <button class="btn btn--select" data-service="service_1canal" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item">
+                        <span class="price-item__name" data-lang="price_2canals">Лечение 2 корневых каналов</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">1500 сом</span>
+                            <button class="btn btn--select" data-service="service_2canals" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item">
+                        <span class="price-item__name" data-lang="price_3canals">Лечение 3 корневых каналов</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">2000 сом</span>
+                            <button class="btn btn--select" data-service="service_3canals" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item">
+                        <span class="price-item__name" data-lang="price_extra_canal">Лечение дополнительного канала</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">700 сом</span>
+                            <button class="btn btn--select" data-service="service_extra_canal" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item">
+                        <span class="price-item__name" data-lang="price_remove_instrument">Извлечение обломка инструмента из корневого канала</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">3000 сом</span>
+                            <button class="btn btn--select" data-service="service_remove_instrument" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item">
+                        <span class="price-item__name" data-lang="price_post">Установка стекловолоконного штифта</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">500 сом</span>
+                            <button class="btn btn--select" data-service="service_post" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Протезирование -->
+            <div class="price-category" data-aos="fade-up">
+                <div class="price-category__header">
+                    <span class="price-category__icon"><i class="fas fa-crown"></i></span>
+                    <span class="price-category__title" data-lang="cat_prosthetics">Протезирование</span>
+                </div>
+                <div class="price-list__grid">
+                    <div class="price-item">
+                        <span class="price-item__name" data-lang="price_temp_crown">Временная коронка (1 шт.)</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">1000 сом</span>
+                            <button class="btn btn--select" data-service="service_temp_crown" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item">
+                        <span class="price-item__name" data-lang="price_emax_crown">Керамическая коронка (e-max, 1 шт.)</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">13000 сом</span>
+                            <button class="btn btn--select" data-service="service_emax_crown" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item">
+                        <span class="price-item__name" data-lang="price_mc_crown">Металлокерамическая коронка (1 шт.)</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">5000 сом</span>
+                            <button class="btn btn--select" data-service="service_mc_crown" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item">
+                        <span class="price-item__name" data-lang="price_mc_implant_crown">Металлокерамическая коронка на имплантате (1 шт.)</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">9000 сом</span>
+                            <button class="btn btn--select" data-service="service_mc_implant_crown" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item">
+                        <span class="price-item__name" data-lang="price_zirconia_crown">Цирконовая коронка (1 шт.)</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">11000 сом</span>
+                            <button class="btn btn--select" data-service="service_zirconia_crown" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item">
+                        <span class="price-item__name" data-lang="price_full_denture">Полный съёмный протез (1 челюсть)</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">15000 сом</span>
+                            <button class="btn btn--select" data-service="service_full_denture" data-lang="select">Выбрать</button>
+                        </div>
+                    </div>
+                    <div class="price-item">
+                        <span class="price-item__name" data-lang="price_zirconia_implant_crown">Цирконовая коронка на имплантате (1 шт.)</span>
+                        <div class="price-item__actions">
+                            <span class="price-item__value">14000 сом</span>
+                            <button class="btn btn--select" data-service="service_zirconia_implant_crown" data-lang="select">Выбрать</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
 
     <!-- Врачи -->
     <section class="doctors" id="doctors">
@@ -354,27 +463,13 @@
                         <div class="form-group">
                             <label for="doctor" data-lang="label_doctor">Врач <span class="required">*</span></label>
                             <select id="doctor" name="doctor" required>
-                                <option value="" data-lang="select_doctor">Выберите врача</option>
-                                <option value="Азиз Абдиев" data-lang="doc1_opt">Азиз Абдиев — Хирург-имплантолог</option>
-                                <option value="Айнура Абдылдаева" data-lang="doc2_opt">Айнура Абдылдаева — Терапевт</option>
-                                <option value="Бекболот Маматов" data-lang="doc3_opt">Бекболот Маматов — Ортодонт</option>
-                                <option value="Гульмира Кыдырова" data-lang="doc4_opt">Гульмира Кыдырова — Детский стоматолог</option>
-                                <option value="Жениш Осмонов" data-lang="doc5_opt">Жениш Осмонов — Ортопед</option>
-                                <option value="Чолпон Садыкова" data-lang="doc6_opt">Чолпон Садыкова — Пародонтолог</option>
+                                <!-- options заполняются динамически -->
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="service" data-lang="label_service">Услуга <span class="required">*</span></label>
                             <select id="service" name="service" required>
-                                <option value="" data-lang="select_service">Выберите услугу</option>
-                                <option value="service_consult" data-lang="price_consult">Консультация</option>
-                                <option value="service_xray" data-lang="price_xray">Рентген 1 зуба</option>
-                                <option value="service_caries" data-lang="price_caries">Лечение кариеса</option>
-                                <option value="service_pulpitis" data-lang="price_pulpitis">Лечение пульпита</option>
-                                <option value="service_extract" data-lang="price_extract">Удаление зуба</option>
-                                <option value="service_implant" data-lang="price_implant">Установка имплантата</option>
-                                <option value="service_hygiene" data-lang="price_hygiene">Профессиональная гигиена</option>
-                                <option value="service_whitening" data-lang="price_whitening">Отбеливание зубов</option>
+                                <!-- options заполняются динамически -->
                             </select>
                         </div>
                     </div>
@@ -400,7 +495,7 @@
             </div>
         </div>
     </section>
-
+    
     <!-- Футер -->
     <footer class="footer" id="contacts" role="contentinfo">
         <div class="container footer__inner">
