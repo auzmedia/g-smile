@@ -1,12 +1,10 @@
-import { translations } from './lang.js';
-
 const body = document.body;
 const themeToggle = document.getElementById('theme-toggle');
 const langSelect = document.getElementById('lang-select');
 
 let currentLang = localStorage.getItem('lang') || 'ru';
 
-// Google Apps Script URL – оставить свой
+// ⚠️ ЗАМЕНИТЕ НА ВАШ URL ПОСЛЕ ДЕПЛОЯ GOOGLE APPS SCRIPT
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz9R2z357JS1p8pBEvfO9tMF8-C30I2_zX1AIVfip261iMDyaQDBvBdQ0NilI7rtjWe3g/exec';
 
 function t(key, params = {}) {
@@ -53,7 +51,7 @@ themeToggle.onclick = () => {
 const icon = themeToggle.querySelector('i');
 icon.className = body.classList.contains('dark') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
 
-// Animations (Intersection Observer)
+// Animations
 function initAnimations() {
     const animatedElements = document.querySelectorAll('.animate-fade-up, .animate-fade-left, .animate-scale');
     const observer = new IntersectionObserver((entries) => {
@@ -67,7 +65,6 @@ function initAnimations() {
     animatedElements.forEach(el => observer.observe(el));
 }
 
-// Data Keys
 const serviceKeys = [
     { key: 'consultation', icon: 'fa-solid fa-stethoscope' },
     { key: 'extraction', icon: 'fa-solid fa-tooth' },
@@ -199,7 +196,7 @@ function loadDoctors() {
     if (currentValue) docSelect.value = currentValue;
 }
 
-// JSONP Logic for Google Apps Script Time slots
+// JSONP для занятых слотов
 window.bookedSlotsCallback = function(data) {
     if (data.status === 'ok' && Array.isArray(data.booked)) {
         window._bookedSlots = data.booked;
@@ -296,7 +293,6 @@ function initSlider() {
     }, 5000);
 }
 
-// Notifications
 function showNotification(message, type) {
     const box = document.getElementById('msgBox');
     const span = document.getElementById('successMessage');
@@ -314,7 +310,6 @@ function showNotification(message, type) {
     setTimeout(() => box.classList.add('hidden'), 5000);
 }
 
-// Form Submit
 document.getElementById('orderForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
@@ -370,14 +365,12 @@ document.getElementById('orderForm').addEventListener('submit', async function(e
     }
 });
 
-// Phone Mask
 document.getElementById('nomer').addEventListener('input', function() {
     let digits = this.value.replace(/\D/g, '').slice(0, 9);
     let parts = [digits.slice(0, 3), digits.slice(3, 6), digits.slice(6, 9)].filter(Boolean);
     this.value = parts.join(' ');
 });
 
-// Mobile Menu
 document.getElementById('menuToggle').addEventListener('click', function() {
     document.getElementById('navLinks').classList.toggle('active');
 });
@@ -387,7 +380,6 @@ document.querySelectorAll('.nav-main a').forEach(link => {
     });
 });
 
-// Init
 window.addEventListener('DOMContentLoaded', () => {
     const savedLang = localStorage.getItem('lang') || 'ru';
     langSelect.value = savedLang;
@@ -402,7 +394,6 @@ window.addEventListener('DOMContentLoaded', () => {
     generateTimeSlots();
     initSlider();
     
-    // Header Scroll Effect
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
             document.querySelector('.topbar').style.background = 'var(--surface)';
