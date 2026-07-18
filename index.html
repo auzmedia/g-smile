@@ -1,345 +1,465 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uz">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Галерея Улыбок — Современная стоматология в Оше</title>
-<meta name="description" content="Стоматологическая клиника Галерея Улыбок в Оше. Профессиональное лечение зубов, имплантация, виниры и эстетическая стоматология." />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabassum Galereyasi — Zamonaviy Stomatologiya</title>
+    <!-- Font Awesome ikonkalari uchun -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #f8f9fa;
+            --text-color: #333;
+            --light-text: #666;
+            --accent-color: #ffc107;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            color: var(--text-color);
+            background-color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Navigatsiya */
+        header {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Hero bo'limi */
+        .hero {
+            background: linear-gradient(135deg, #e6f2ff 0%, #ffffff 100%);
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            color: #111;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--light-text);
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary-color);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: transform 0.3s, background-color 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            margin-left: 10px;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        /* Umumiy Bo'limlar */
+        section {
+            padding: 70px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        /* Afzalliklar */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--secondary-color);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            transition: box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .feature-card i {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        /* Narxlar (Prais) */
+        .price-list {
+            background: var(--secondary-color);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 10px;
+            border-bottom: 1px solid #ddd;
+            align-items: center;
+        }
+
+        .price-item:last-child {
+            border-bottom: none;
+        }
+
+        .price-details h4 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .price-details p {
+            font-size: 14px;
+            color: var(--light-text);
+        }
+
+        .price-amount {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+
+        /* Shifokorlar */
+        .doctors {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .doctor-card {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: center;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .doctor-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: #ddd;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #aaa;
+        }
+
+        .doctor-card h3 {
+            margin-bottom: 5px;
+        }
+
+        .doctor-card p {
+            color: var(--light-text);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .rating {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        /* Qabulga yozilish formasi */
+        .booking-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--secondary-color);
+            padding: 40px;
+            border-radius: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Footer */
+        footer {
+            background: #222;
+            color: #fff;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .footer-socials {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .footer-socials a {
+            color: #fff;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .footer-socials a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Mobil qurilmalar uchun moslashuvchanlik */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero h1 {
+                font-size: 30px;
+            }
+            .price-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<header class="topbar">
-    <div class="container nav">
-        <a href="#main" class="brand">
-            <div class="brand-icon"><i class="fa-solid fa-tooth"></i></div>
-            <div class="brand-text">
-                <div>Галерея Улыбок</div>
-                <small>Стоматология г. Ош</small>
-            </div>
-        </a>
+    <!-- Navigatsiya paneli -->
+    <header>
+        <nav class="navbar">
+            <a href="#" class="logo"><i class="fa-solid :has-text-grey-lighter"></i> Галерея улыбок</a>
+            <ul class="nav-links">
+                <li><a href="#about">Biz haqimizda</a></li>
+                <li><a href="#prices">Narxlar</a></li>
+                <li><a href="#doctors">Shifokorlar</a></li>
+                <li><a href="#book">Yozilish</a></li>
+            </ul>
+        </nav>
+    </header>
 
-        <div class="nav-links" id="navLinks">
-            <div class="nav-main">
-                <a href="#main" data-i18n="main">Главная</a>
-                <a href="#services" data-i18n="services">Услуги</a>
-                <a href="#prices" data-i18n="prices">Цены</a>
-                <a href="#doctors" data-i18n="doctors">Врачи</a>
-                <a href="#certificates" data-i18n="certificates">Сертификаты</a>
-            </div>
-            <div class="nav-right">
-                <select id="lang-select">
-                    <option value="uz">UZ</option>
-                    <option value="en">EN</option>
-                    <option value="ru" selected>RU</option>
-                </select>
-                <button id="theme-toggle" class="theme-btn" aria-label="Смена темы"><i class="fa-solid fa-moon"></i></button>
-                <a href="tel:0557702270" class="btn btn-outline call-btn">
-                    <i class="fa fa-phone"></i> 0557702270
-                </a>
-            </div>
-        </div>
-        
-        <button class="menu-toggle" id="menuToggle" aria-label="Меню">
-            <i class="fa fa-bars"></i>
-        </button>
-    </div>
-</header>
-
-<section class="hero" id="main">
-    <div class="hero-bg">
-        <div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=1920&q=80')"></div>
-        <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1920&q=80')"></div>
-        <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=1920&q=80')"></div>
-        <div class="overlay"></div>
-    </div>
-
-    <div class="container hero-container">
+    <!-- Hero Bo'limi -->
+    <section class="hero">
         <div class="hero-content">
-            <div class="eyebrow animate-fade-up delay-1"><i class="fa fa-gem"></i> <span data-i18n="hero_badge">Премиальная цифровая стоматология</span></div>
-            <h1 class="animate-fade-up delay-2" data-i18n="hero_title">Безупречная эстетика и здоровье ваших зубов в Оше.</h1>
-            <p class="animate-fade-up delay-3" data-i18n="hero_text">Инновационный подход центра «Галерея Улыбок». Мы объединили опыт ведущих специалистов и передовое европейское оборудование для безболезненного лечения.</p>
-            <div class="hero-actions animate-fade-up delay-4">
-                <a class="btn btn-primary" href="#contact" data-i18n="btn_book">Записаться на прием</a>
-                <a class="btn btn-secondary" href="#services" data-i18n="btn_services">Наши услуги</a>
-            </div>
+            <h1>Go‘zal tabassum shu yerdan boshlanadi</h1>
+            <p>Osh markazidagi zamonaviy stomatologiya. Davolash, implantatsiya, breketlar va estetika — barchasi bir klinikada.</p>
+            <a href="#book" class="btn">Navbatga yozilish</a>
+            <a href="#prices" class="btn btn-outline">Narxlar bilan tanishish</a>
         </div>
-        
-        <div class="hero-stats glass-card animate-fade-left delay-5">
-            <div class="stat-grid">
-                <div class="stat-item">
-                    <div class="stat-icon"><i class="fa-solid fa-face-smile"></i></div>
-                    <div>
-                        <b>10 000+</b>
-                        <span data-i18n="stat_patients">Счастливых пациентов</span>
-                    </div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-icon"><i class="fa-solid fa-award"></i></div>
-                    <div>
-                        <b>5</b>
-                        <span data-i18n="stat_experience">Лет опыта</span>
-                    </div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-icon"><i class="fa-solid fa-user-doctor"></i></div>
-                    <div>
-                        <b>6</b>
-                        <span data-i18n="stat_doctors">Врачей-экспертов</span>
-                    </div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-icon"><i class="fa-solid fa-cube"></i></div>
-                    <div>
-                        <b>3D</b>
-                        <span data-i18n="stat_tech">Технологии</span>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-dots" id="dots"></div>
-        </div>
-    </div>
-</section>
+    </section>
 
-<section class="section" id="services">
-    <div class="container">
-        <div class="section-header text-center animate-fade-up">
-            <h2 class="title highlight-text" data-i18n="services_title">Наши услуги</h2>
-            <p class="sub" data-i18n="services_sub">Современные методики лечения. Нажмите на нужную услугу, и она автоматически подставится в форму записи.</p>
+    <!-- Afzalliklar bo'limi -->
+    <section id="about">
+        <h2 class="section-title">Nega aynan biz?</h2>
+        <div class="features">
+            <div class="feature-card">
+                <i class="fa-solid fa-briefcase-medical"></i>
+                <h3>15+ Xizmat turlari</h3>
+                <p>Stomatologiya xizmatlarining to‘liq spektri</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-user-doctor"></i>
+                <h3>6 Tajribali shifokor</h3>
+                <p>Oliy ma'lumotli va o‘z ishining ustalari</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-kit-medical"></i>
+                <h3>Zamonaviy texnologiya</h3>
+                <p>Jahon standartlariga mos diagnostika va davolash</p>
+            </div>
         </div>
-        <div class="grid-services" id="servicesGrid"></div>
-    </div>
-</section>
+    </section>
 
-<section class="section bg-alt" id="why-us">
-    <div class="container">
-        <div class="section-header animate-fade-up">
-            <h2 class="title highlight-text" data-i18n="why_title">Почему выбирают нас</h2>
-            <p class="sub" data-i18n="why_sub">Идеальные условия для того, чтобы лечение ассоциировалось только с комфортом.</p>
-        </div>
-        <div class="bento-grid">
-            <div class="bento-item bento-large group animate-scale">
-                <img src="https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?auto=format&fit=crop&w=800&q=80" alt="Технологии" class="bento-img">
-                <div class="bento-content glass-overlay">
-                    <h3 data-i18n="why_tech_title">Современные технологии</h3>
-                    <p data-i18n="why_tech_text">Лечение под микроскопом, 3D-моделирование.</p>
+    <!-- Narxlar bo'limi -->
+    <section id="prices">
+        <h2 class="section-title">Xizmatlar va narxlar</h2>
+        <div class="price-list">
+            <div class="price-item">
+                <div class="price-details">
+                    <h4>Konsultatsiya va diagnostika</h4>
+                    <p>Davolash rejasini tuzish bilan birga</p>
                 </div>
+                <div class="price-amount">500 som</div>
             </div>
-            <div class="bento-item group animate-scale delay-1">
-                <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=600&q=80" alt="Врачи" class="bento-img">
-                <div class="bento-content glass-overlay">
-                    <h3 data-i18n="why_doc_title">Опытные врачи</h3>
-                    <p data-i18n="why_doc_text">Регулярное международное обучение.</p>
+            <div class="price-item">
+                <div class="price-details">
+                    <h4>Tish kariesini davolash</h4>
+                    <p>Sifatli plomba qo‘yish va tishni tiklash</p>
                 </div>
+                <div class="price-amount">2000 - 3500 som</div>
             </div>
-            <div class="bento-item group animate-scale delay-2">
-                <div class="bento-content solid-bg">
-                    <i class="fa-solid fa-hand-holding-heart bento-icon"></i>
-                    <h3 data-i18n="why_ind_title">Индивидуальный подход</h3>
-                    <p data-i18n="why_ind_text">Персональный пошаговый план лечения.</p>
+            <div class="price-item">
+                <div class="price-details">
+                    <h4>Metallokeramika qoplama (Koronka)</h4>
+                    <p>1 dona tish uchun mustahkam qoplama</p>
                 </div>
+                <div class="price-amount">5000 som</div>
             </div>
-            <div class="bento-item bento-wide group animate-scale delay-3">
-                <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80" alt="Клиника" class="bento-img">
-                <div class="bento-content glass-overlay">
-                    <h3 data-i18n="why_loc_title">Удобное местоположение</h3>
-                    <p data-i18n="why_loc_text">Ош, ул. Аскара Шакирова, 271. Парковка.</p>
+            <div class="price-item">
+                <div class="price-details">
+                    <h4>Tishni og‘riqsiz olish</h4>
+                    <p>Zamonaviy anesteziya ostida xavfsiz olib tashlash</p>
                 </div>
-            </div>
-            <div class="bento-item group animate-scale delay-4">
-                <div class="bento-content solid-bg dark-bg">
-                    <i class="fa-regular fa-clock bento-icon text-accent"></i>
-                    <h3 data-i18n="why_sched_title">Удобный график</h3>
-                    <p data-i18n="why_sched_text">Работаем с 8:00 до 21:00. Вы успеете после работы.</p>
-                </div>
+                <div class="price-amount">1000 - 5000 som</div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class="section" id="doctors">
-    <div class="container">
-        <div class="section-header text-center animate-fade-up">
-            <h2 class="title highlight-text" data-i18n="doctors_title">Наши специалисты</h2>
-            <p class="sub" data-i18n="doctors_sub">Команда сертифицированных профессионалов.</p>
+    <!-- Shifokorlar bo'limi -->
+    <section id="doctors">
+        <h2 class="section-title">Bizning mutaxassislar</h2>
+        <div class="doctors">
+            <div class="doctor-card">
+                <div class="doctor-img"><i class="fa-solid fa-user-md"></i></div>
+                <h3>Aziz Abdiyev</h3>
+                <p>Bosh shifokor, xirurg-implantolog</p>
+                <div class="rating"><i class="fa-solid fa-star"></i> 4.9 (15 yillik tajriba)</div>
+                <a href="#book" class="btn" style="padding: 8px 20px; font-size: 14px;">Yozilish</a>
+            </div>
+            <div class="doctor-card">
+                <div class="doctor-img"><i class="fa-solid fa-user-md"></i></div>
+                <h3>Aynura Abdildayeva</h3>
+                <p>Shifokor-terapevt, endodontist</p>
+                <div class="rating"><i class="fa-solid fa-star"></i> 4.8 (12 yillik tajriba)</div>
+                <a href="#book" class="btn" style="padding: 8px 20px; font-size: 14px;">Yozilish</a>
+            </div>
+            <div class="doctor-card">
+                <div class="doctor-img"><i class="fa-solid fa-user-md"></i></div>
+                <h3>Bekbolot Mamatov</h3>
+                <p>Ortodont (breketlar)</p>
+                <div class="rating"><i class="fa-solid fa-star"></i> 4.7 (10 yillik tajriba)</div>
+                <a href="#book" class="btn" style="padding: 8px 20px; font-size: 14px;">Yozilish</a>
+            </div>
         </div>
-        <div class="grid-doctors" id="doctorsGrid"></div>
-    </div>
-</section>
+    </section>
 
-<section class="section bg-alt" id="reviews">
-    <div class="container">
-        <div class="section-header text-center animate-fade-up">
-            <h2 class="title highlight-text" data-i18n="reviews_title">Отзывы пациентов</h2>
-            <p class="sub" data-i18n="reviews_sub">Ваша здоровая улыбка — наше главное достижение.</p>
-        </div>
-        <div class="grid-reviews">
-            <div class="review-card glass-card animate-fade-up delay-1">
-                <div class="stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
-                <p class="review-text" data-i18n="review_1_text">Прекрасная клиника! Врачи — настоящие профессионалы. Вылечили зуб совершенно без боли. Рекомендую!</p>
-                <div class="review-author">
-                    <div class="avatar"><i class="fa fa-user"></i></div>
-                    <strong data-i18n="review_1_name">Азиза Т.</strong>
-                </div>
+    <!-- Yozilish Formasi -->
+    <section id="book">
+        <h2 class="section-title">Qabulga onlayn yozilish</h2>
+        <form class="booking-form" onsubmit="alert('Arizangiz qabul qilindi!'); return false;">
+            <div class="form-group">
+                <label for="name">Ismingiz va Familiyangiz</label>
+                <input type="text" id="name" class="form-control" placeholder="Masalan: Ali Valiyev" required>
             </div>
-            <div class="review-card glass-card animate-fade-up delay-2">
-                <div class="stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
-                <p class="review-text" data-i18n="review_2_text">Ставил импланты у Арапова Исламбека. Все прошло идеально, результатом очень доволен.</p>
-                <div class="review-author">
-                    <div class="avatar"><i class="fa fa-user"></i></div>
-                    <strong data-i18n="review_2_name">Бектур М.</strong>
-                </div>
+            <div class="form-group">
+                <label for="phone">Telefon raqamingiz</label>
+                <input type="tel" id="phone" class="form-control" placeholder="+996 550 123 456" required>
             </div>
-            <div class="review-card glass-card animate-fade-up delay-3">
-                <div class="stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
-                <p class="review-text" data-i18n="review_3_text">Огромное спасибо детскому стоматологу Назиме. Мой ребенок больше не боится лечить зубы.</p>
-                <div class="review-author">
-                    <div class="avatar"><i class="fa fa-user"></i></div>
-                    <strong data-i18n="review_3_name">Мадина К.</strong>
-                </div>
+            <div class="form-group">
+                <label for="doctor">Shifokorni tanlang</label>
+                <select id="doctor" class="form-control">
+                    <option>Aziz Abdiyev — Xirurg-implantolog</option>
+                    <option>Aynura Abdildayeva — Terapevt</option>
+                    <option>Bekbolot Mamatov — Ortodont</option>
+                </select>
             </div>
-        </div>
-    </div>
-</section>
+            <button type="submit" class="btn" style="width: 100%;">Sorov yuborish</button>
+        </form>
+    </section>
 
-<section class="section" id="prices">
-    <div class="container">
-        <div class="section-header text-center animate-fade-up">
-            <h2 class="title highlight-text" data-i18n="price_title">Прозрачные цены</h2>
-            <p class="sub" data-i18n="price_sub">Честное ценообразование без скрытых переплат. Цены в сомах (KGS).</p>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Галерея улыбок. Barcha huquqlar himoyalangan.</p>
+        <p>Osh shahri, Lenina ko‘chasi, 123 | Tel: +996 550 123 456</p>
+        <div class="footer-socials">
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-telegram"></i></a>
+            <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
         </div>
-        <div class="price-box glass-card" id="pricesList"></div>
-    </div>
-</section>
+    </footer>
 
-<section class="section bg-alt" id="certificates">
-    <div class="container">
-        <div class="section-header animate-fade-up">
-            <h2 class="title highlight-text" data-i18n="cert_title">Сертификаты и лицензии</h2>
-            <p class="sub" data-i18n="cert_sub">Оборудование отвечает строгим международным стандартам.</p>
-        </div>
-        <div class="grid-cert">
-            <div class="cert-card animate-scale delay-1"><img src="https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?auto=format&fit=crop&w=600&q=80" alt="Кабинет"></div>
-            <div class="cert-card animate-scale delay-2"><img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=600&q=80" alt="Оборудование"></div>
-            <div class="cert-card animate-scale delay-3"><img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=600&q=80" alt="Сертификат"></div>
-            <div class="cert-card animate-scale delay-4"><img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=600&q=80" alt="Стерилизационная"></div>
-        </div>
-    </div>
-</section>
-
-<section class="section" id="contact">
-    <div class="container">
-        <div class="contact-wrapper glass-card animate-fade-up">
-            <div class="contact-info">
-                <h2 class="title text-white" data-i18n="contact_title">Онлайн запись</h2>
-                <p class="sub text-white opacity-80" data-i18n="contact_sub" style="margin-bottom:30px">Выберите услугу, врача и свободное время. Система скроет занятые часы.</p>
-                <div class="contact-detail">
-                    <div class="icon-circle"><i class="fa fa-location-dot"></i></div>
-                    <div>
-                        <small class="opacity-80">Адрес</small>
-                        <p class="font-bold">Ош, ул. Аскара Шакирова, 271</p>
-                    </div>
-                </div>
-                <div class="contact-detail">
-                    <div class="icon-circle"><i class="fa fa-phone"></i></div>
-                    <div>
-                        <small class="opacity-80">Телефон</small>
-                        <p class="font-bold">+996 557 702 270</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="contact-form">
-                <form id="orderForm" class="modern-form">
-                    <div class="form-grid">
-                        <div class="input-group">
-                            <label for="ism" data-i18n="label_name">Имя</label>
-                            <input id="ism" type="text" placeholder="Пример: Айбек" required>
-                        </div>
-                        <div class="input-group">
-                            <label for="familiya" data-i18n="label_surname">Фамилия</label>
-                            <input id="familiya" type="text" placeholder="Пример: Кадыров" required>
-                        </div>
-                        <div class="input-group phone-group" style="grid-column: 1 / -1">
-                            <label for="nomer" data-i18n="label_phone">Телефон</label>
-                            <div class="phone-wrapper">
-                                <span class="prefix">+996</span>
-                                <input id="nomer" type="tel" placeholder="557 702 270" inputmode="numeric" maxlength="11" required>
-                            </div>
-                        </div>
-                        <div class="input-group">
-                            <label for="xizmat" data-i18n="label_service">Услуга</label>
-                            <select id="xizmat" required><option value="">-- Выберите услугу --</option></select>
-                        </div>
-                        <div class="input-group">
-                            <label for="shifokor" data-i18n="label_doctor">Врач</label>
-                            <select id="shifokor" required><option value="">-- Выберите врача --</option></select>
-                        </div>
-                        <div class="input-group">
-                            <label for="sana" data-i18n="label_date">Дата</label>
-                            <input id="sana" type="date" required>
-                        </div>
-                        <div class="input-group">
-                            <label for="vaqt_select" data-i18n="label_time">Время</label>
-                            <select id="vaqt_select" required><option value="">-- Выберите время --</option></select>
-                        </div>
-                        <div class="input-group" style="grid-column: 1 / -1">
-                            <label for="izoh" data-i18n="label_comment">Комментарий</label>
-                            <textarea id="izoh" placeholder="Опишите симптомы..."></textarea>
-                        </div>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary w-full mt-4" data-i18n="btn_submit">Подтвердить запись</button>
-                    
-                    <div class="loading hidden text-center mt-3"><i class="fa fa-spinner fa-spin"></i> <span data-i18n="sending">Отправка...</span></div>
-                    <div class="success-message hidden mt-3 p-3 rounded" id="msgBox"><span id="successMessage"></span></div>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-
-<footer class="footer">
-    <div class="container footer-grid">
-        <div class="footer-brand">
-            <div class="brand">
-                <div class="brand-icon"><i class="fa-solid fa-tooth"></i></div>
-                <div class="brand-text">
-                    <div>Галерея Улыбок</div>
-                </div>
-            </div>
-            <p class="mt-2 text-muted" data-i18n="footer_desc">Клиника нового поколения в Кыргызстане.</p>
-            <div class="socials">
-                <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#"><i class="fa-brands fa-telegram"></i></a>
-                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-            </div>
-        </div>
-        <div class="footer-links">
-            <h4 data-i18n="footer_contacts">Контакты</h4>
-            <ul>
-                <li><i class="fa fa-map-marker-alt text-accent w-5"></i> <span data-i18n="footer_address">Ош, ул. Аскара Шакирова, 271</span></li>
-                <li><i class="fa fa-phone text-accent w-5"></i> <a href="tel:+996557702270">+996 557 702 270</a></li>
-            </ul>
-        </div>
-        <div class="footer-links">
-            <h4 data-i18n="footer_hours">График работы</h4>
-            <ul>
-                <li><i class="fa fa-clock text-accent w-5"></i> <span data-i18n="footer_days">Пн — Сб</span>: 8:00 - 21:00</li>
-                <li class="text-red-500"><i class="fa fa-calendar-times w-5"></i> <span data-i18n="footer_sunday">Воскресенье — Выходной</span></li>
-            </ul>
-        </div>
-    </div>
-    <div class="footer-bottom text-center">
-        &copy; 2026 <span data-i18n="footer_copyright">Стоматология «Галерея Улыбок». Все права защищены.</span>
-    </div>
-</footer>
-
-<script src="lang.js"></script>
-<script src="script.js"></script>
 </body>
 </html>
