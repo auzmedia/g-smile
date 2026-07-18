@@ -1,406 +1,238 @@
-const body = document.body;
-const themeToggle = document.getElementById('theme-toggle');
-const langSelect = document.getElementById('lang-select');
-
-let currentLang = localStorage.getItem('lang') || 'ru';
-
-// ⚠️ ЗАМЕНИТЕ НА ВАШ URL ПОСЛЕ ДЕПЛОЯ GOOGLE APPS SCRIPT
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyvvZLRJ5AEXLhvF4opta_g4mTnzUt2IjCeEm7k0rHI6tgmAxcmRYU5i6oAKqM94ufb8w/exec';
-
-function t(key, params = {}) {
-    const text = translations[currentLang]?.[key] || translations['ru'][key] || key;
-    return text.replace(/\{(\w+)\}/g, (_, p) => params[p] || '');
-}
-
-function setLanguage(lang) {
-    currentLang = lang;
-    localStorage.setItem('lang', lang);
-
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (translations[lang] && translations[lang][key]) {
-            el.textContent = translations[lang][key];
-        }
-    });
-
-    updatePlaceholders();
-    loadServices();
-    loadPrices();
-    loadDoctors();
-    generateTimeSlots();
-    setTimeout(initAnimations, 300);
-}
-
-function updatePlaceholders() {
-    document.getElementById('familiya').placeholder = t('placeholder_surname');
-    document.getElementById('ism').placeholder = t('placeholder_name');
-    document.getElementById('nomer').placeholder = t('placeholder_phone');
-    document.getElementById('izoh').placeholder = t('placeholder_comment');
-}
-
-langSelect.onchange = (e) => setLanguage(e.target.value);
-
-// Theme Toggle
-if (localStorage.getItem('theme') === 'dark') body.classList.add('dark');
-themeToggle.onclick = () => {
-    body.classList.toggle('dark');
-    localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
-    const icon = themeToggle.querySelector('i');
-    icon.className = body.classList.contains('dark') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-};
-const icon = themeToggle.querySelector('i');
-icon.className = body.classList.contains('dark') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-
-// Animations
-function initAnimations() {
-    const animatedElements = document.querySelectorAll('.animate-fade-up, .animate-fade-left, .animate-scale');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-    animatedElements.forEach(el => observer.observe(el));
-}
-
-const serviceKeys = [
-    { key: 'consultation', icon: 'fa-solid fa-stethoscope' },
-    { key: 'extraction', icon: 'fa-solid fa-tooth' },
-    { key: 'caries', icon: 'fa-solid fa-gem' },
-    { key: 'pulpitis', icon: 'fa-solid fa-microscope' },
-    { key: 'cleaning', icon: 'fa-solid fa-broom' },
-    { key: 'whitening', icon: 'fa-solid fa-lightbulb' },
-    { key: 'crown', icon: 'fa-solid fa-crown' },
-    { key: 'zirconia', icon: 'fa-solid fa-shield-halved' },
-    { key: 'veneer', icon: 'fa-solid fa-star' },
-    { key: 'implant', icon: 'fa-solid fa-screwdriver-wrench' },
-    { key: 'braces', icon: 'fa-solid fa-link' },
-    { key: 'gum', icon: 'fa-solid fa-droplet' },
-    { key: 'fissure', icon: 'fa-solid fa-child' },
-    { key: 'xray', icon: 'fa-solid fa-camera' },
-    { key: 'nightguard', icon: 'fa-solid fa-moon' },
-    { key: 'wisdom', icon: 'fa-solid fa-tooth' },
-    { key: 'aligners', icon: 'fa-solid fa-wand-magic-sparkles' }
-];
-
-function getServices() {
-    return serviceKeys.map(s => ({
-        name: t(`service_${s.key}`),
-        icon: s.icon,
-        price: t(`price_${s.key}`),
-        key: s.key
-    }));
-}
-
-function loadServices() {
-    const servicesGrid = document.getElementById('servicesGrid');
-    servicesGrid.innerHTML = '';
-    const services = getServices();
-
-    services.forEach((service, index) => {
-        const card = document.createElement('div');
-        card.className = 'service-card animate-fade-up';
-        card.style.transitionDelay = `${(index % 4) * 0.1}s`;
-        card.onclick = () => selectService(service.key);
-        card.innerHTML = `
-            <div class="service-icon-wrap"><i class="${service.icon}"></i></div>
-            <h3>${service.name}</h3>
-            <p>${t('price_title')}: <b>${service.price}</b>.</p>
-        `;
-        servicesGrid.appendChild(card);
-    });
-
-    const serviceSelect = document.getElementById('xizmat');
-    const currentValue = serviceSelect.value;
-    serviceSelect.innerHTML = `<option value="">${t('select_service')}</option>`;
-    services.forEach(service => {
-        const option = document.createElement('option');
-        option.value = service.key;
-        option.textContent = `${service.name} (${service.price})`;
-        serviceSelect.appendChild(option);
-    });
-    if (currentValue) serviceSelect.value = currentValue;
-}
-
-window.selectService = function(serviceKey) {
-    const select = document.getElementById('xizmat');
-    select.value = serviceKey;
-    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-    showNotification(t('service_selected', { service: t(`service_${serviceKey}`) }), 'success');
-}
-
-function loadPrices() {
-    const pricesListBlock = document.getElementById('pricesList');
-    pricesListBlock.innerHTML = '';
-    getServices().forEach((item, index) => {
-        const row = document.createElement('div');
-        row.className = 'price-row animate-fade-left';
-        row.style.transitionDelay = `${(index % 8) * 0.05}s`;
-        row.innerHTML = `<span class="price-name">${item.name}</span><span class="price-val">${item.price}</span>`;
-        pricesListBlock.appendChild(row);
-    });
-}
-
-function getDoctors() {
-    const doctorKeys = ['arapov', 'ermatov', 'salieva', 'kasymov', 'mamatova', 'abdullaev'];
-    const images = [
-        'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=500&q=80',
-        'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=500&q=80',
-        'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=500&q=80',
-        'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=500&q=80',
-        'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=500&q=80',
-        'https://images.unsplash.com/photo-1614608682850-e0d6ed316d47?auto=format&fit=crop&w=500&q=80'
-    ];
-    return doctorKeys.map((key, i) => ({
-        name: t(`doctor_${key}`),
-        role: t(`doctor_${key}_role`),
-        exp: t(`doctor_${key}_exp`),
-        image: images[i],
-        edu: t(`doctor_${key}_edu`),
-        key: key
-    }));
-}
-
-function loadDoctors() {
-    const doctorsGrid = document.getElementById('doctorsGrid');
-    doctorsGrid.innerHTML = '';
-    const doctors = getDoctors();
-    
-    doctors.forEach((doc, index) => {
-        const card = document.createElement('div');
-        card.className = 'doctor-card animate-scale';
-        card.style.transitionDelay = `${(index % 3) * 0.1}s`;
-        card.innerHTML = `
-            <div class="doc-img-wrap"><img src="${doc.image}" alt="${doc.name}"></div>
-            <div class="doc-info">
-                <span class="doc-role">${doc.role}</span>
-                <h3>${doc.name}</h3>
-                <p class="exp"><i class="fa fa-briefcase text-accent"></i> ${doc.exp}</p>
-                <p class="edu">${doc.edu}</p>
-            </div>
-        `;
-        doctorsGrid.appendChild(card);
-    });
-
-    const docSelect = document.getElementById('shifokor');
-    const currentValue = docSelect.value;
-    docSelect.innerHTML = `<option value="">${t('select_doctor')}</option>`;
-    doctors.forEach(doc => {
-        const option = document.createElement('option');
-        option.value = doc.name;
-        option.textContent = `${doc.name} (${doc.role.split(',')[0]})`;
-        docSelect.appendChild(option);
-    });
-    if (currentValue) docSelect.value = currentValue;
-}
-
-// JSONP для занятых слотов
-window.bookedSlotsCallback = function(data) {
-    if (data.status === 'ok' && Array.isArray(data.booked)) {
-        window._bookedSlots = data.booked;
-    } else {
-        window._bookedSlots = [];
-    }
-    if (window._timeoutId) {
-        clearTimeout(window._timeoutId);
-        window._timeoutId = null;
-    }
-    populateTimeSelect();
-};
-
-function generateTimeSlots() {
-    const sana = document.getElementById('sana').value;
-    if (!sana) {
-        document.getElementById('vaqt_select').innerHTML = `<option value="">${t('select_time_available')}</option>`;
-        return;
-    }
-
-    const oldScript = document.querySelector('script[data-timeslots]');
-    if (oldScript) oldScript.remove();
-
-    const script = document.createElement('script');
-    script.setAttribute('data-timeslots', 'true');
-    script.src = `${SCRIPT_URL}?action=getBookedSlots&callback=bookedSlotsCallback&t=${Date.now()}`;
-    
-    script.onerror = function() {
-        window._bookedSlots = [];
-        populateTimeSelect();
-    };
-    
-    document.head.appendChild(script);
-
-    if (window._timeoutId) clearTimeout(window._timeoutId);
-    window._timeoutId = setTimeout(function() {
-        window._bookedSlots = [];
-        populateTimeSelect();
-        const s = document.querySelector('script[data-timeslots]');
-        if (s) s.remove();
-        window._timeoutId = null;
-    }, 5000);
-}
-
-function populateTimeSelect() {
-    const timeSelect = document.getElementById('vaqt_select');
-    const sana = document.getElementById('sana').value;
-    if (!sana) return;
-
-    const booked = window._bookedSlots || [];
-    const bookedTimes = booked.filter(item => item.date === sana).map(item => item.time);
-
-    timeSelect.innerHTML = `<option value="">${t('select_time_available')}</option>`;
-    const allSlots = [];
-    for (let hour = 8; hour < 21; hour++) {
-        allSlots.push(`${String(hour).padStart(2, '0')}:00`);
-        allSlots.push(`${String(hour).padStart(2, '0')}:30`);
-    }
-
-    allSlots.forEach(slot => {
-        if (!bookedTimes.includes(slot)) {
-            const opt = document.createElement('option');
-            opt.value = slot; opt.textContent = slot;
-            timeSelect.appendChild(opt);
-        }
-    });
-}
-
-// Hero Slider
-function initSlider() {
-    const slides = document.querySelectorAll('.hero-bg .slide');
-    const dotsWrap = document.getElementById('dots');
-    let active = 0;
-
-    slides.forEach((_, i) => {
-        const dot = document.createElement('div');
-        dot.className = 'dot' + (i === 0 ? ' active' : '');
-        dot.onclick = () => {
-            slides[active].classList.remove('active');
-            dotsWrap.children[active].classList.remove('active');
-            active = i;
-            slides[active].classList.add('active');
-            dotsWrap.children[active].classList.add('active');
-        };
-        dotsWrap.appendChild(dot);
-    });
-
-    setInterval(() => {
-        slides[active].classList.remove('active');
-        dotsWrap.children[active].classList.remove('active');
-        active = (active + 1) % slides.length;
-        slides[active].classList.add('active');
-        dotsWrap.children[active].classList.add('active');
-    }, 5000);
-}
-
-function showNotification(message, type) {
-    const box = document.getElementById('msgBox');
-    const span = document.getElementById('successMessage');
-    span.textContent = message;
-    box.classList.remove('hidden');
-    if (type === 'error') {
-        box.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
-        box.style.border = '1px solid #ef4444';
-        box.style.color = '#ef4444';
-    } else {
-        box.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
-        box.style.border = '1px solid #10b981';
-        box.style.color = '#10b981';
-    }
-    setTimeout(() => box.classList.add('hidden'), 5000);
-}
-
-document.getElementById('orderForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-
-    const ism = document.getElementById('ism').value.trim();
-    const familiya = document.getElementById('familiya').value.trim();
-    const nomer = document.getElementById('nomer').value.trim();
-    const serviceKey = document.getElementById('xizmat').value;
-    const shifokor = document.getElementById('shifokor').value;
-    const selectedTime = document.getElementById('vaqt_select').value;
-    const sana = document.getElementById('sana').value;
-    const izoh = document.getElementById('izoh').value.trim();
-
-    if (!ism || !familiya || !nomer || !serviceKey || !shifokor || !selectedTime || !sana) {
-        showNotification(t('fill_all_fields'), 'error');
-        return;
-    }
-
-    const digits = nomer.replace(/\D/g, '');
-    if (digits.length !== 9) {
-        showNotification(t('phone_9_digits'), 'error');
-        return;
-    }
-
-    const submitBtn = document.querySelector('.contact-form button[type="submit"]');
-    const loading = document.querySelector('.loading');
-    submitBtn.style.display = 'none';
-    loading.classList.remove('hidden');
-
-    const orderData = {
-        ism: ism, familiya: familiya, nomer: '+996 ' + nomer,
-        serviceKey: serviceKey, serviceNameTelegram: t(`service_${serviceKey}`),
-        shifokor: shifokor, vaqt: selectedTime, sana: sana, izoh: izoh, lang: currentLang,
-        timestamp: new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Bishkek' })
-    };
-
-    try {
-        const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(orderData) });
-        const result = await response.json();
-
-        if (result.status === 'ok') {
-            showNotification(t('booking_success', { name: ism, doctor: shifokor, time: selectedTime }), 'success');
-            document.getElementById('orderForm').reset();
-            document.getElementById('sana').value = new Date().toISOString().split('T')[0];
-            generateTimeSlots();
-        } else {
-            showNotification(result.message || t('booking_error'), 'error');
-        }
-    } catch (error) {
-        showNotification(t('booking_error'), 'error');
-    } finally {
-        submitBtn.style.display = 'block';
-        loading.classList.add('hidden');
-    }
+// Тема
+const themeToggle = document.getElementById('themeToggle');
+const currentTheme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', currentTheme);
+themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+themeToggle.addEventListener('click', () => {
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+    themeToggle.innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
 });
 
-document.getElementById('nomer').addEventListener('input', function() {
-    let digits = this.value.replace(/\D/g, '').slice(0, 9);
-    let parts = [digits.slice(0, 3), digits.slice(3, 6), digits.slice(6, 9)].filter(Boolean);
-    this.value = parts.join(' ');
-});
+// AOS
+AOS.init({ duration: 800, once: true, offset: 20 });
 
-document.getElementById('menuToggle').addEventListener('click', function() {
-    document.getElementById('navLinks').classList.toggle('active');
+// Бургер
+document.querySelector('.burger').addEventListener('click', function() {
+    const nav = document.querySelector('.nav');
+    nav.classList.toggle('active');
+    this.setAttribute('aria-expanded', nav.classList.contains('active'));
 });
-document.querySelectorAll('.nav-main a').forEach(link => {
+document.querySelectorAll('.nav__list a').forEach(link => {
     link.addEventListener('click', () => {
-        document.getElementById('navLinks').classList.remove('active');
+        document.querySelector('.nav').classList.remove('active');
+        document.querySelector('.burger').setAttribute('aria-expanded', 'false');
     });
 });
 
-window.addEventListener('DOMContentLoaded', () => {
-    const savedLang = localStorage.getItem('lang') || 'ru';
-    langSelect.value = savedLang;
-    setLanguage(savedLang);
-
-    const sanaInput = document.getElementById('sana');
-    const today = new Date().toISOString().split('T')[0];
-    sanaInput.value = today;
-    sanaInput.min = today;
-    sanaInput.addEventListener('change', generateTimeSlots);
-
-    generateTimeSlots();
-    initSlider();
-    
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            document.querySelector('.topbar').style.background = 'var(--surface)';
-            document.querySelector('.topbar').style.boxShadow = 'var(--shadow-md)';
-        } else {
-            document.querySelector('.topbar').style.background = 'var(--surface-glass)';
-            document.querySelector('.topbar').style.boxShadow = 'none';
+// Статистика
+const statNumbers = document.querySelectorAll('.stat__number[data-count]');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const el = entry.target;
+            const target = parseInt(el.getAttribute('data-count'), 10);
+            let current = 0;
+            const step = Math.ceil(target / 60);
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    el.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    el.textContent = current;
+                }
+            }, 20);
+            observer.unobserve(el);
         }
     });
+}, { threshold: 0.5 });
+statNumbers.forEach(el => observer.observe(el));
+
+// Видео-карусель
+new Swiper('.videoSwiper', {
+    slidesPerView: 1,
+    spaceBetween: 20,
+    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+    pagination: { el: '.swiper-pagination', clickable: true },
+    breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } },
+    loop: true,
+    autoplay: { delay: 5000, disableOnInteraction: true },
 });
+
+// Кнопки "Выбрать" в прайс-листе
+document.querySelectorAll('.btn--select').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const serviceName = this.getAttribute('data-service');
+        document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => {
+            const serviceSelect = document.getElementById('service');
+            for (let opt of serviceSelect.options) {
+                if (opt.text === serviceName || opt.value === serviceName) {
+                    serviceSelect.value = opt.value;
+                    break;
+                }
+            }
+        }, 300);
+    });
+});
+
+// ===== ФОРМА ЗАПИСИ (отправка через iframe) =====
+(function() {
+    const form = document.getElementById('bookingForm');
+    const timeSelect = document.getElementById('time');
+    const dateInput = document.getElementById('date');
+    const msgDiv = document.getElementById('formMessage');
+
+    // ⚠️ ЗАМЕНИТЕ НА ВАШ URL ВЕБ-ПРИЛОЖЕНИЯ GOOGLE SCRIPT
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxSUbZkkn6_hYzqU1vjt3a_0xpU3S3AV05z1W6mfdt5xu_Ow_1KkRZKHwFsbSDpgEJQbg/exec';
+
+    const iframe = document.createElement('iframe');
+    iframe.name = 'hiddenFrame';
+    iframe.id = 'hiddenFrame';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+
+    window.addEventListener('message', function(event) {
+        const data = event.data;
+        if (data && typeof data === 'object') {
+            if (data.type === 'BOOKING_SUCCESS') {
+                msgDiv.className = 'form-message success';
+                msgDiv.textContent = data.message || 'Запись успешно создана! Мы свяжемся с вами.';
+                document.getElementById('lastName').value = '';
+                document.getElementById('firstName').value = '';
+                document.getElementById('phone').value = '';
+                document.getElementById('service').value = '';
+                document.getElementById('comment').value = '';
+                if (dateInput.value && document.getElementById('doctor').value) {
+                    populateTimeSlots(dateInput.value, document.getElementById('doctor').value);
+                }
+            } else if (data.type === 'BOOKING_ERROR') {
+                msgDiv.className = 'form-message error';
+                msgDiv.textContent = data.error || 'Ошибка при создании записи.';
+            }
+        }
+    });
+
+    async function checkAvailability(date, time, doctor) {
+        try {
+            const url = SCRIPT_URL + '?date=' + encodeURIComponent(date) + '&doctor=' + encodeURIComponent(doctor);
+            const response = await fetch(url, { method: 'GET' });
+            if (!response.ok) return false;
+            const result = await response.json();
+            if (!result.success) return false;
+            return result.bookedTimes.includes(time);
+        } catch (error) {
+            console.warn('Ошибка проверки занятости (CORS), пропускаем проверку:', error);
+            return false;
+        }
+    }
+
+    function generateTimeSlots() {
+        const slots = [];
+        for (let h = 9; h <= 17; h++) slots.push(String(h).padStart(2, '0') + ':00');
+        return slots;
+    }
+
+    function populateTimeSlots(selectedDate, selectedDoctor) {
+        const slots = generateTimeSlots();
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const selected = new Date(selectedDate + 'T00:00:00');
+
+        const activeLang = typeof currentLang !== 'undefined' ? currentLang : 'ru';
+        timeSelect.innerHTML = '<option value="">' + (typeof translations !== 'undefined' && translations[activeLang]?.select_time ? translations[activeLang].select_time : 'Выберите время') + '</option>';
+        
+        slots.forEach(time => {
+            if (selected.getTime() === today.getTime()) {
+                const [h] = time.split(':').map(Number);
+                if (h < now.getHours() || (h === now.getHours() && now.getMinutes() > 0)) return;
+            }
+            const option = document.createElement('option');
+            option.value = time;
+            option.textContent = time;
+            timeSelect.appendChild(option);
+        });
+    }
+
+    dateInput.addEventListener('change', function() {
+        const doctor = document.getElementById('doctor').value;
+        if (this.value && doctor) populateTimeSlots(this.value, doctor);
+    });
+
+    document.getElementById('doctor').addEventListener('change', function() {
+        const date = dateInput.value;
+        if (date && this.value) populateTimeSlots(date, this.value);
+    });
+
+    const todayStr = new Date().toISOString().split('T')[0];
+    dateInput.setAttribute('min', todayStr);
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const lastName = document.getElementById('lastName').value.trim();
+        const firstName = document.getElementById('firstName').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const doctorSelect = document.getElementById('doctor');
+        const serviceSelect = document.getElementById('service');
+        const date = dateInput.value;
+        const time = timeSelect.value;
+        const comment = document.getElementById('comment').value.trim();
+        
+        const activeLang = typeof currentLang !== 'undefined' ? currentLang : (document.documentElement.lang || 'ru');
+
+        if (!lastName || !firstName || !phone || !doctorSelect.value || !serviceSelect.value || !date || !time) {
+            msgDiv.className = 'form-message error';
+            msgDiv.textContent = typeof translations !== 'undefined' && translations[activeLang]?.msg_fill_fields ? translations[activeLang].msg_fill_fields : 'Пожалуйста, заполните все обязательные поля.';
+            return;
+        }
+
+        const isTaken = await checkAvailability(date, time, doctorSelect.value);
+        if (isTaken) {
+            msgDiv.className = 'form-message error';
+            msgDiv.textContent = typeof translations !== 'undefined' && translations[activeLang]?.msg_time_taken ? translations[activeLang].msg_time_taken : 'Это время уже занято. Пожалуйста, выберите другое время.';
+            return;
+        }
+
+        let fullPhone = phone;
+        if (!phone.startsWith('+996')) fullPhone = '+996' + phone.replace(/^\+?/, '');
+
+        const hiddenForm = document.createElement('form');
+        hiddenForm.method = 'POST';
+        hiddenForm.action = SCRIPT_URL;
+        hiddenForm.target = 'hiddenFrame';
+        hiddenForm.style.display = 'none';
+
+        const fields = {
+            lastName: lastName,
+            firstName: firstName,
+            phone: fullPhone,
+            doctor: doctorSelect.value,
+            doctorText: doctorSelect.options[doctorSelect.selectedIndex].text,
+            service: serviceSelect.value,
+            serviceText: serviceSelect.options[serviceSelect.selectedIndex].text,
+            date: date,
+            time: time,
+            comment: comment,
+            lang: activeLang,
+            _iframe: 'true'
+        };
+        
+        for (let key in fields) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = fields[key];
+            hiddenForm.appendChild(input);
+        }
+
+        document.body.appendChild(hiddenForm);
+        hiddenForm.submit();
+        
+        setTimeout(() => {
+            if (hiddenForm.parentNode) hiddenForm.remove();
+        }, 5000);
+    });
+})();
