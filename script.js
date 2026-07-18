@@ -67,7 +67,7 @@ document.querySelectorAll('.doctor-book-btn').forEach(btn => {
     const msgDiv = document.getElementById('formMessage');
     
     // ВСТАВЬТЕ СЮДА ВАШУ ССЫЛКУ ИЗ GOOGLE APPS SCRIPT!
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxravN6kB86KE2j_zY9FdqtsnS7AkxFOXr71cjWYyvCXbi9J-OF_VceY3S5aevoLj7oTQ/exec'; 
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwmxrGA68GgQnK1FEAsuDcAjKbGgTZoPkC2Xy0Mc-BQpCV5agne5hUbCYgHtW9RBFuh1A/exec'; 
 
     // Ограничение даты: нельзя выбрать прошедший день
     const today = new Date();
