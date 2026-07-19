@@ -196,10 +196,19 @@ function updateServiceOptions(lang) {
         msgDiv.style.display = 'block';
 
         const currentLang = localStorage.getItem('lang') || 'ru';
+        
+        // === ИСПРАВЛЕННАЯ ОБРАБОТКА ТЕЛЕФОНА ===
+        let phoneNumber = document.getElementById('phone').value.replace(/\D/g, '');
+        if (phoneNumber.startsWith('0')) {
+            phoneNumber = phoneNumber.substring(1);
+        }
+        const fullPhone = '+996' + phoneNumber;
+        // ====================================
+
         const formData = {
             lastName: document.getElementById('lastName').value,
             firstName: document.getElementById('firstName').value,
-            phone: '+996' + document.getElementById('phone').value.replace(/\D/g, ''),
+            phone: fullPhone,
             doctor: doctorSelect.value,
             service: document.getElementById('service').value,
             date: dateInput.value,
