@@ -13,33 +13,37 @@ themeToggle.addEventListener('click', () => {
     updateThemeIcon(theme);
 });
 
-// Бургер-меню
-const burger = document.querySelector('.burger');
-const nav = document.querySelector('.nav');
-const navLinks = document.querySelectorAll('.nav__list a');
+// ===== БУРГЕР МЕНЮ (исправленный) =====
+(function() {
+    const burger = document.querySelector('.burger');
+    const nav = document.querySelector('.nav');
+    
+    if (!burger || !nav) return; // защита, если элементов нет
 
-// Открыть/закрыть меню при клике на бургер
-burger.addEventListener('click', () => {
-    const expanded = burger.getAttribute('aria-expanded') === 'true' || false;
-    burger.setAttribute('aria-expanded', !expanded);
-    nav.classList.toggle('active');
-});
+    const navLinks = nav.querySelectorAll('.nav__list a');
 
-// Закрыть меню при клике на любой пункт меню
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        nav.classList.remove('active');
-        burger.setAttribute('aria-expanded', false);
+    // Открыть/закрыть меню кликом по бургеру
+    burger.addEventListener('click', function() {
+        const isActive = nav.classList.toggle('active');
+        burger.setAttribute('aria-expanded', isActive);
     });
-});
 
-// При ресайзе в десктопную версию – сбросить мобильное меню
-window.addEventListener('resize', () => {
-    if (window.innerWidth > 768) {
-        nav.classList.remove('active');
-        burger.setAttribute('aria-expanded', false);
-    }
-});
+    // Закрыть меню при клике на любую ссылку внутри меню
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            nav.classList.remove('active');
+            burger.setAttribute('aria-expanded', 'false');
+        });
+    });
+
+    // Если экран стал шире 768px — насильно закрываем меню
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            nav.classList.remove('active');
+            burger.setAttribute('aria-expanded', 'false');
+        }
+    });
+})();
 
 // ===== АНИМАЦИИ =====
 AOS.init({ duration: 800, once: true, offset: 20 });
