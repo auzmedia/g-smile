@@ -13,18 +13,32 @@ themeToggle.addEventListener('click', () => {
     updateThemeIcon(theme);
 });
 
-// ===== БУРГЕР МЕНЮ =====
+// Бургер-меню
 const burger = document.querySelector('.burger');
 const nav = document.querySelector('.nav');
+const navLinks = document.querySelectorAll('.nav__list a');
+
+// Открыть/закрыть меню при клике на бургер
 burger.addEventListener('click', () => {
+    const expanded = burger.getAttribute('aria-expanded') === 'true' || false;
+    burger.setAttribute('aria-expanded', !expanded);
     nav.classList.toggle('active');
-    burger.setAttribute('aria-expanded', nav.classList.contains('active'));
 });
-document.querySelectorAll('.nav__list a').forEach(link => {
+
+// Закрыть меню при клике на любой пункт меню
+navLinks.forEach(link => {
     link.addEventListener('click', () => {
         nav.classList.remove('active');
-        burger.setAttribute('aria-expanded', 'false');
+        burger.setAttribute('aria-expanded', false);
     });
+});
+
+// При ресайзе в десктопную версию – сбросить мобильное меню
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+        nav.classList.remove('active');
+        burger.setAttribute('aria-expanded', false);
+    }
 });
 
 // ===== АНИМАЦИИ =====
